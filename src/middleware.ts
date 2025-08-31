@@ -44,8 +44,9 @@ export default withAuth(
           return true
         }
 
-        // Require authentication for protected routes
-        return !!token
+        // TEMPORARY: Allow all routes for UI testing
+        return true
+        // TODO: Restore after UI testing: return !!token
       }
     }
   }
