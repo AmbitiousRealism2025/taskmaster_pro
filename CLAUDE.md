@@ -139,6 +139,13 @@ src/
 
 ## Development Workflow
 
+### Enterprise Branching Strategy
+**Critical**: TaskMaster Pro uses a **subgroup-based branching strategy** with built-in safety nets:
+- Each subgroup creates a permanent fallback branch (`feature/phase1-subgroup[N]-[name]`)
+- 5 recovery points across Phase 1 development
+- Zero-risk development with granular rollback capabilities
+- **Full Documentation**: `BRANCHING_STRATEGY.md`
+
 ### Subgroup Implementation Process (MUST FOLLOW):
 1. **Load Documentation**: Only load the specific subgroup context doc + tests
 2. **Implement Subgroup**: Complete all functionality for that subgroup

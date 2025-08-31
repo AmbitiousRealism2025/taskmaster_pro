@@ -102,11 +102,12 @@ TaskMaster Pro is a full-stack productivity suite for solopreneurs featuring uni
 4. **Production Infrastructure & Security** - Set up monitoring, security, and deployment
 
 ### Development Workflow (⚠️ CRITICAL - Must Follow):
-1. **Compaction-Based Development**: Complete one subgroup → Test → Document → **COMPACT** → Next subgroup
-2. **TDD Methodology**: Write failing tests first, then implement to pass
-3. **Phase Gates**: 100% test pass required before advancing phases
-4. **12 Mandatory Compaction Points**: One after each subgroup to prevent context overflow
-5. **Quality Standards**: WCAG 2.1 AA accessibility, performance optimization
+1. **Enterprise Branching Strategy**: Subgroup-based development with 5 safety fallback branches per phase (`BRANCHING_STRATEGY.md`)
+2. **Compaction-Based Development**: Complete one subgroup → Test → Document → **COMPACT** → Next subgroup
+3. **TDD Methodology**: Write failing tests first, then implement to pass
+4. **Phase Gates**: 100% test pass required before advancing phases
+5. **12 Mandatory Compaction Points**: One after each subgroup to prevent context overflow
+6. **Quality Standards**: WCAG 2.1 AA accessibility, performance optimization
 
 ### Files Ready for Implementation:
 - All failing tests written and organized by phase
@@ -160,6 +161,7 @@ npm run type-check   # TypeScript checking
 ### Implementation Guides (Start Here):
 - `IMPLEMENTATION_GUIDE.md` - Master implementation plan with compaction workflow
 - `IMPLEMENTATION_WORKFLOW.md` - Detailed step-by-step for each subgroup
+- `BRANCHING_STRATEGY.md` - Enterprise branching strategy with safety nets
 - `SUBGROUP_PROGRESS.md` - Track progress and compaction points
 - `DOCUMENTATION_MAP.md` - Complete document relationship map
 - `PRE_IMPLEMENTATION_CHECKLIST.md` - Final readiness verification
