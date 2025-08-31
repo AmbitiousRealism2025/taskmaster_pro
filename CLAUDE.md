@@ -160,17 +160,92 @@ src/
 
 ## MCP Server Integration
 
-The following MCP servers are configured and available:
-- **filesystem**: File system operations in the TaskMaster Pro directory
-- **memory**: Persistent memory across sessions for project context
-- **playwright**: Browser automation and E2E testing (globally installed)
-- **context7**: Documentation patterns and library references (globally installed)
-- **cerebras**: Fast code generation at 2,000 tokens/sec (globally installed)
+### 🚀 SESSION STARTUP PROCEDURE (Run /prime command first)
+
+When starting a new Claude session in the terminal, **always run the /prime command** which will:
+1. Check git status and list all project files
+2. Read key documentation files (README.md, CLAUDE.md, etc.)
+3. Verify and report status of all MCP servers
+4. Provide a comprehensive project understanding summary
+
+### Critical MCP Servers Required for TaskMaster Pro
+
+These four servers MUST be operational before starting implementation:
+
+1. **memory** ✅ Required
+   - Purpose: Persistent context across sessions and compaction points
+   - Test: `write_memory("test", "Hello")` then `read_memory("test")`
+   - Used for: Storing architectural decisions, progress tracking
+
+2. **playwright** ✅ Required  
+   - Purpose: E2E testing for all 165 TDD tests
+   - Test: Launch a browser window
+   - Installation: `npm install -g @executeautomation/playwright-mcp-server`
+
+3. **context7** ✅ Required
+   - Purpose: Framework documentation and patterns
+   - Test: Search for Next.js or React documentation
+   - Installation: `npm install -g @upstash/context7-mcp`
+
+4. **serena** ✅ Required
+   - Purpose: Semantic code analysis and refactoring
+   - Test: Will activate once first .ts/.tsx files are created
+   - Config: `.serena/project.yml` already configured
+
+### MCP Server Status Check Commands
+
+Run these checks at session start to verify MCP availability:
+
+```javascript
+// 1. Memory Server Check
+"Test memory MCP: write and read a test value"
+
+// 2. Playwright Server Check  
+"Test playwright MCP: check if browser automation tools are available"
+
+// 3. Context7 Server Check
+"Test context7 MCP: search for Next.js App Router documentation"
+
+// 4. Serena Server Check (after creating first source file)
+"Test Serena MCP: analyze project structure"
+```
+
+### Expected MCP Server Status Report Format
+
+After running /prime, you should see:
+
+```
+MCP SERVER STATUS REPORT
+========================
+✅ Memory      - write_memory, read_memory, list_memories available
+✅ Playwright  - Browser automation tools available
+✅ Context7    - Documentation search tools available
+⚠️  Serena     - Configured, awaiting source files
+
+Ready to proceed: YES/NO
+```
+
+### If MCP Servers Are Not Available
+
+**STOP** - Do not proceed with implementation without the 4 critical servers:
+
+1. Ensure you're using Claude Desktop app (not VS Code extension)
+2. Check configuration: `~/Library/Application Support/Claude/claude_desktop_config.json`
+3. Restart Claude Desktop completely (Cmd+Q, then reopen)
+4. Verify installations:
+   ```bash
+   npm list -g | grep -E "playwright-mcp|context7-mcp"
+   which uvx  # For Serena
+   ```
+
+### Additional MCP Servers (Optional but Helpful)
+
 - **sequential-thinking**: Complex analysis and debugging
-- **github/gitlab**: Version control operations (requires token configuration)
-- **postgres/sqlite**: Database operations for project data
-- **fetch**: Web fetching capabilities for external resources
-- **brave-search**: Web search functionality (requires API key)
+- **cerebras**: Fast code generation at 2,000 tokens/sec
+- **github/gitlab**: Version control operations (requires token)
+- **postgres/sqlite**: Database operations
+- **fetch**: Web fetching capabilities
+- **brave-search**: Web search (requires API key)
 
 ## Testing Commands (Future)
 
