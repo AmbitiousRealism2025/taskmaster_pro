@@ -18,6 +18,10 @@ const config: Config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['var(--font-sans)', 'Inter', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'SF Mono', 'monospace'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -51,6 +55,25 @@ const config: Config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        // Brand colors
+        brand: {
+          primary: '#8b5cf6',
+          secondary: '#06b6d4',
+          tertiary: '#14b8a6',
+        },
+        // Priority colors
+        priority: {
+          high: '#f43f5e',
+          medium: '#f59e0b',
+          low: '#10b981',
+        },
+        // Status colors
+        status: {
+          success: '#10b981',
+          warning: '#f59e0b',
+          error: '#ef4444',
+          info: '#3b82f6',
         },
       },
       borderRadius: {
