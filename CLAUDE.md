@@ -152,6 +152,12 @@ src/
 2. **Green Phase**: Minimal implementation to pass tests
 3. **Refactor Phase**: Improve code quality while keeping tests green
 
+### Phase End Code Reviews:
+1. **Collaborative Review**: Multi-agent code review at end of each phase
+2. **Specialist Analysis**: Backend, Frontend, Senior Code Review, + Serena MCP
+3. **Documentation**: Scribe agent generates comprehensive phase report
+4. **Process**: Complete phase → Code review → Generate report → Compact → Next phase
+
 ### Context Management:
 - **Green Zone (0-40%)**: Safe to continue
 - **Yellow Zone (40-60%)**: Prepare for compaction
