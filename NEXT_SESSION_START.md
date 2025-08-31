@@ -1,46 +1,37 @@
 # 🚀 NEXT SESSION START GUIDE
 
-## ⚠️ IMPORTANT: Restart Claude CLI First!
-You must exit and restart Claude CLI for MCP servers to activate.
+## Current Status: Ready for Subgroup 1 Implementation
 
 ---
 
-## Session 2: Begin Implementation
+## Session 3: Begin Subgroup 1 Implementation
 
-### 1️⃣ Restart Claude CLI
+### 1️⃣ Start Claude CLI Session
 ```bash
-# Exit current session (Ctrl+C or exit)
-# Then start new session:
+cd ~/Desktop/Coding-Projects/TaskMaster_Pro
 claude
 ```
 
-### 2️⃣ Verify MCP Servers
-Ask Claude:
-```
-Check if memory, playwright, context7, and serena MCP servers are available
-```
+### 2️⃣ Run /prime Command
+This will automatically:
+- Load project context
+- Verify MCP servers
+- Check git status
+- Prepare for implementation
 
-Expected response should show all 4 servers operational.
+### 3️⃣ Verify MCP Server Status
+Expected operational servers:
+- ✅ **Serena** - Semantic code analysis
+- ✅ **Playwright** - E2E test automation
+- ✅ **Context7** - Documentation search
+- ❌ **Memory** - Not available (non-critical)
 
-### 3️⃣ Load Session Context
-Ask Claude:
+### 4️⃣ Begin Subgroup 1: Infrastructure Foundation
+Load ONLY these documents:
 ```
-Read SESSION_NOTES.md and SUBGROUP_PROGRESS.md to understand where we left off
-```
-
-### 4️⃣ Check Git Status
-```bash
-git status
-git branch
-```
-
-### 5️⃣ Begin Subgroup 1
-Ask Claude:
-```
-Let's begin Subgroup 1: Infrastructure Foundation. 
 Please load:
 1. context_docs/phase1/01_infrastructure_foundation.md
-2. Phase1_Foundation_Tests.md (Tests 1-6)
+2. Phase1_Foundation_Tests.md (Tests 1-6 only)
 3. IMPLEMENTATION_WORKFLOW.md
 
 Then create a todo list and start implementation.
@@ -48,55 +39,91 @@ Then create a todo list and start implementation.
 
 ---
 
-## 📋 Quick Reference
+## 📋 Implementation Checklist
 
-### MCP Server Commands
-```bash
-claude mcp list              # Verify servers are connected
+### Subgroup 1 Tasks
+- [ ] Initialize Next.js 14+ project with TypeScript
+- [ ] Set up project structure (src/, app/, components/, etc.)
+- [ ] Configure TypeScript (tsconfig.json)
+- [ ] Set up ESLint and Prettier
+- [ ] Install and configure core dependencies
+- [ ] Create Docker configuration
+- [ ] Set up GitHub Actions CI/CD
+- [ ] Configure environment variables
+- [ ] Set up monitoring (Sentry, Vercel Analytics)
+- [ ] Run tests 1-6 (must pass 100%)
+
+### After Completion
+1. Update `SUBGROUP_PROGRESS.md`
+2. Create git commit: `feat: Complete Subgroup 1 - Infrastructure Foundation`
+3. **COMPACT SESSION** - Critical!
+4. Start fresh session for Subgroup 2
+
+---
+
+## ⚠️ Critical Reminders
+
+### Compaction Rules
+- **MANDATORY**: Compact after EVERY subgroup
+- **Context Limit**: Never exceed 75% usage
+- **One at a Time**: Complete ONE subgroup per session
+
+### TDD Workflow
+1. Load failing tests first
+2. Implement to make tests pass
+3. Verify 100% pass rate
+4. Only then move forward
+
+### Git Workflow
+- Current branch: `feature/phase1-subgroup1-infrastructure`
+- Commit after each subgroup
+- Keep commits atomic and descriptive
+
+---
+
+## 🎯 Session Goals
+
+### Primary Objective
+Complete Subgroup 1 (Infrastructure Foundation) with:
+- ✅ 6/6 tests passing
+- ✅ Full project scaffolding
+- ✅ Docker/CI/CD configured
+- ✅ Environment setup complete
+
+### Success Metrics
+- Tests 1-6 from Phase1_Foundation_Tests.md passing
+- Project structure matches specifications
+- All configurations in place
+- Ready for Subgroup 2 after compaction
+
+---
+
+## 📝 Session History
+
+### Session 1: MCP Server Setup (2025-08-31)
+- Configured MCP servers for Claude CLI
+- Created activation scripts
+
+### Session 2: Pre-Implementation Check (2025-08-31)
+- Verified MCP servers operational
+- Confirmed project readiness
+- Updated documentation for compaction
+
+### Session 3: Ready to Begin
+- Start Subgroup 1 implementation
+- Follow TDD methodology
+- Compact after completion
+
+---
+
+## 🚀 Quick Start Command
 ```
-
-### Critical Files for Subgroup 1
-- **Context**: `context_docs/phase1/01_infrastructure_foundation.md`
-- **Tests**: `Phase1_Foundation_Tests.md` (Tests 1-6)
-- **Workflow**: `IMPLEMENTATION_WORKFLOW.md`
-- **Progress**: `SUBGROUP_PROGRESS.md`
-
-### Expected Tasks for Subgroup 1
-1. Create Next.js project structure
-2. Set up TypeScript configuration
-3. Configure ESLint and Prettier
-4. Install core dependencies
-5. Set up Docker configuration
-6. Create CI/CD pipeline structure
-
-### Compaction Reminder
-After completing Subgroup 1:
-1. Run all tests (should pass 6/32 for Phase 1)
-2. Update SUBGROUP_PROGRESS.md
-3. Commit to git
-4. **COMPACT SESSION** before moving to Subgroup 2
+/prime
+```
+Then follow the implementation checklist above.
 
 ---
 
-## 🎯 Success Criteria
-- [ ] MCP servers verified as working
-- [ ] Session context loaded
-- [ ] Git repository ready
-- [ ] Subgroup 1 implementation started
-- [ ] TodoWrite tool being used for task tracking
-- [ ] Following TDD methodology
+**Ready to implement! Start new session and follow the steps.**
 
----
-
-## 📝 Notes from Session 1
-- MCP servers configured in Claude CLI
-- Ready to begin implementation
-- All documentation complete
-- 165 failing tests ready for TDD
-- Compaction workflow mandatory
-
----
-
-**Ready to go! Just restart Claude CLI and follow the steps above.**
-
-*Created: 2025-08-31 - End of Session 1*
+*Last Updated: 2025-08-31 - Ready for Subgroup 1*
