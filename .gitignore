@@ -81,4 +81,4 @@ public/worker-*.js.map
 
 # Miscellaneous
 *.pem
-.history/
+.history/.serena/cache/
