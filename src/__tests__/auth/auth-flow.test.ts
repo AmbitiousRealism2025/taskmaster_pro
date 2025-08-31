@@ -11,7 +11,7 @@ describe('Authentication Flow (TDD)', () => {
     it('should mock NextAuth getSession successfully', async () => {
       // This test validates our mock setup works
       vi.mocked(getSession).mockResolvedValue({
-        user: { email: 'test@example.com', name: 'Test User' },
+        user: { id: '1', email: 'test@example.com', name: 'Test User' },
         expires: '2024-12-31'
       })
 

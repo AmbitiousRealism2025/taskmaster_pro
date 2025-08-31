@@ -11,11 +11,12 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  name          String?
-  emailVerified DateTime?
-  image         String?
+  id             String    @id @default(cuid())
+  email          String    @unique
+  name           String?
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?   // For credential authentication
   
   // Authentication
   accounts Account[]
