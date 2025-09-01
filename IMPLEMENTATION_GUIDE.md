@@ -114,21 +114,21 @@ FOR EACH OF THE 12 SUBGROUPS:
 ## Phase 2: Core Features (3 Compaction Points)
 
 ### Subgroup 6: Task Management Core
-- **Context**: `context_docs/phase2/01_task_management_core.md`
+- **Context**: `context_docs/phase2/06_task_management_core.md`
 - **Tests**: Phase2_Feature_Tests.md (Tests 1-12)
 - **Enhancements**: None
 - **Dependencies**: Phase 1 complete
 - **COMPACT AFTER COMPLETION**
 
 ### Subgroup 7: Content & Focus Systems
-- **Context**: `context_docs/phase2/02_content_focus_systems.md`
+- **Context**: `context_docs/phase2/07_content_focus_systems.md`
 - **Tests**: Phase2_Feature_Tests.md (Tests 13-22)
 - **Enhancements**: Dashboard completion fixes included
 - **Dependencies**: Subgroup 6 complete
 - **COMPACT AFTER COMPLETION**
 
 ### Subgroup 8: Real-time & State Orchestration
-- **Context**: `context_docs/phase2/03_realtime_state_orchestration.md`
+- **Context**: `context_docs/phase2/08_realtime_state_orchestration.md`
 - **Tests**: Phase2_Feature_Tests.md (Tests 23-29)
 - **Enhancements**: None
 - **Dependencies**: Subgroups 6-7 complete
@@ -137,7 +137,7 @@ FOR EACH OF THE 12 SUBGROUPS:
 ## Phase 3: Production (4 Compaction Points)
 
 ### Subgroup 9: Data Intelligence & Analytics
-- **Context**: `context_docs/phase3/01_data_intelligence_analytics.md`
+- **Context**: `context_docs/phase3/09_data_intelligence_analytics.md`
 - **Tests**: Phase3_Production_Tests_ENHANCED.md (Tests 1-20)
 - **Enhancements**:
   - `performance_optimizations/DATABASE_INDEXING_STRATEGY.md`
@@ -146,7 +146,7 @@ FOR EACH OF THE 12 SUBGROUPS:
 - **COMPACT AFTER COMPLETION**
 
 ### Subgroup 10: External Integration Layer
-- **Context**: `context_docs/phase3/02_external_integration_layer_ENHANCED.md`
+- **Context**: `context_docs/phase3/10_external_integration_layer_ENHANCED.md`
 - **Tests**: Phase3_Production_Tests_ENHANCED.md (Tests 21-35)
 - **Enhancements**:
   - `architecture_improvements/CALENDAR_SERVICE_ARCHITECTURE.md`
@@ -155,14 +155,14 @@ FOR EACH OF THE 12 SUBGROUPS:
 - **COMPACT AFTER COMPLETION**
 
 ### Subgroup 11: PWA & Offline Infrastructure
-- **Context**: `context_docs/phase3/03_pwa_offline_infrastructure.md`
+- **Context**: `context_docs/phase3/11_pwa_offline_infrastructure.md`
 - **Tests**: Phase3_Production_Tests_ENHANCED.md (Tests 36-50)
 - **Enhancements**: None
 - **Dependencies**: Subgroups 9-10 complete
 - **COMPACT AFTER COMPLETION**
 
 ### Subgroup 12: Production Infrastructure & Security
-- **Context**: `context_docs/phase3/04_production_infrastructure_security.md`
+- **Context**: `context_docs/phase3/12_production_infrastructure_security.md`
 - **Tests**: Phase3_Production_Tests_ENHANCED.md (Tests 51-63+)
 - **Enhancements**: All security patches applied
 - **Dependencies**: Subgroups 9-11 complete

@@ -216,7 +216,7 @@
 
 ### ⏳ Subgroup 9: Data Intelligence & Analytics
 - **Status**: Not Started
-- **Context Doc**: `context_docs/phase3/01_data_intelligence_analytics.md`
+- **Context Doc**: `context_docs/phase3/09_data_intelligence_analytics.md`
 - **Tests**: Phase3_Production_Tests_ENHANCED.md (Tests 1-20)
 - **Enhanced Docs**: DATABASE_INDEXING_STRATEGY.md, PRISMA_ANALYTICS_SCHEMA_OPTIMIZATIONS.md
 - **Prerequisites**: Phase 2 Complete
@@ -227,7 +227,7 @@
 
 ### ⏳ Subgroup 10: External Integration Layer
 - **Status**: Not Started
-- **Context Doc**: `context_docs/phase3/02_external_integration_layer_ENHANCED.md`
+- **Context Doc**: `context_docs/phase3/10_external_integration_layer_ENHANCED.md`
 - **Tests**: Phase3_Production_Tests_ENHANCED.md (Tests 21-35)
 - **Enhanced Docs**: CALENDAR_SERVICE_ARCHITECTURE.md, NOTIFICATION_BATCHING_ARCHITECTURE.md
 - **Prerequisites**: Subgroup 9 Complete
@@ -238,7 +238,7 @@
 
 ### ⏳ Subgroup 11: PWA & Offline Infrastructure
 - **Status**: Not Started
-- **Context Doc**: `context_docs/phase3/03_pwa_offline_infrastructure.md`
+- **Context Doc**: `context_docs/phase3/11_pwa_offline_infrastructure.md`
 - **Tests**: Phase3_Production_Tests_ENHANCED.md (Tests 36-50)
 - **Prerequisites**: Subgroups 9-10 Complete
 - **Planned Start**: 
@@ -248,7 +248,7 @@
 
 ### ⏳ Subgroup 12: Production Infrastructure & Security
 - **Status**: Not Started
-- **Context Doc**: `context_docs/phase3/04_production_infrastructure_security.md`
+- **Context Doc**: `context_docs/phase3/12_production_infrastructure_security.md`
 - **Tests**: Phase3_Production_Tests_ENHANCED.md (Tests 51-63+)
 - **Enhanced**: All security patches included
 - **Prerequisites**: Subgroups 9-11 Complete
