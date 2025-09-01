@@ -29,6 +29,7 @@ model User {
   projects Project[]
   tasks    Task[]
   notes    Note[]
+  folders  Folder[]
   habits   Habit[]
   
   // Metadata
@@ -132,17 +133,58 @@ model Task {
 }
 
 model Note {
-  id      String @id @default(cuid())
-  title   String
-  content String @db.Text
-  userId  String
+  id               String  @id @default(cuid())
+  title            String
+  content          String  @db.Text
+  plainTextContent String? @db.Text
   
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Organization
+  folderId         String?
+  tags             String[] @default([])
+  isPinned         Boolean @default(false)
+  isArchived       Boolean @default(false)
+  
+  // AI Features
+  extractedTasks   String[] @default([])
+  aiSummary        String?
+  aiTopics         String[] @default([])
+  
+  // Sharing & Collaboration
+  isShared         Boolean @default(false)
+  sharedWith       String[] @default([])
+  
+  // Metadata
+  userId           String
+  lastViewedAt     DateTime?
+  
+  // Relations
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folder Folder? @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("notes")
+}
+
+model Folder {
+  id        String @id @default(cuid())
+  name      String
+  color     String @default("#6366f1")
+  parentId  String?
+  path      String @default("")
+  userId    String
+  
+  // Relations
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent   Folder?  @relation("FolderHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children Folder[] @relation("FolderHierarchy")
+  notes    Note[]
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
-  @@map("notes")
+  @@map("folders")
 }
 
 model Habit {

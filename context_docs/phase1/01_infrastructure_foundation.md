@@ -2,11 +2,31 @@
 
 ## ⚠️ Implementation Notes
 - **Subgroup Number**: 1 (First subgroup - includes project scaffolding)
+- **MCP Requirements**: MANDATORY - Verify Memory, Serena, Playwright, Context7 servers via `/prime`
+- **MCP Initialization**: Load project foundation context, no previous memories exist
+- **MCP Storage**: Store project architecture, tech stack decisions, development patterns
 - **Compact After Completion**: MANDATORY - Must compact before proceeding to Subgroup 2
 - **Test Coverage**: Phase1_Foundation_Tests.md (Tests 1-6)
 - **Dependencies**: None - This is the first subgroup
 - **Related Enhancements**: None
 - **Estimated Context Usage**: 30-40% (includes project setup)
+
+## 🔌 MCP Server Workflow for This Subgroup
+
+### Pre-Implementation (REQUIRED):
+1. **Session Startup**: Run `/prime` command - verify all 4 MCP servers operational
+2. **Initial Context**: Knowledge graph empty (first subgroup)
+3. **Framework Access**: Use `mcp__context7__resolve-library-id()` for Next.js, Prisma documentation
+
+### During Implementation:
+1. **Store Decisions**: `mcp__serena__write_memory("infrastructure_foundation", "Project architecture decisions")`
+2. **Create Entities**: `mcp__memory__create_entities()` for tech stack, development patterns
+3. **Test Execution**: `mcp__playwright__playwright_navigate()` once development server is ready
+
+### Post-Implementation:
+1. **Knowledge Graph**: Update with project foundation, tech stack relationships
+2. **Architectural Summary**: `mcp__serena__write_memory("subgroup_1_complete", completion_summary)`
+3. **Pattern Storage**: Store Next.js patterns, Prisma configuration, testing setup
 
 ---
 

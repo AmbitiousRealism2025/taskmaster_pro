@@ -2,11 +2,34 @@
 
 ## ⚠️ Implementation Notes
 - **Subgroup Number**: 7 (Content & Focus Systems)
+- **MCP Requirements**: MANDATORY - Verify Memory, Serena, Playwright, Context7 servers via `/prime`
+- **MCP Context Loading**: Load Subgroup 6 completion memories and task management patterns
+- **MCP Storage**: Store rich text patterns, focus timer architecture, Web Worker implementations
 - **Compact After Completion**: MANDATORY - Must compact before proceeding to Subgroup 8
 - **Test Coverage**: Phase2_Feature_Tests.md (Tests 13-22)
 - **Dependencies**: Task Management Core (Subgroup 6) must be complete
 - **Related Enhancements**: Includes dashboard fixes from Phase 1
 - **Estimated Context Usage**: 60-70%
+
+## 🔌 MCP Server Workflow for This Subgroup
+
+### Pre-Implementation (REQUIRED):
+1. **Session Startup**: Run `/prime` command - verify all 4 MCP servers operational
+2. **Context Loading**: 
+   - `mcp__memory__search_nodes("task management OR subgroup 6")`
+   - `mcp__serena__read_memory("subgroup_6_complete")` 
+   - Load task integration patterns and database schema context
+3. **Framework Access**: `mcp__context7__resolve-library-id("tiptap OR web workers")` for rich text/timer docs
+
+### During Implementation:
+1. **Store Architecture**: `mcp__serena__write_memory("content_focus_architecture", "Tiptap integration, Web Worker timers, AI extraction")`
+2. **Component Relationships**: `mcp__memory__create_entities()` for TiptapEditor, FocusTimer, enhanced project components
+3. **Test Execution**: `mcp__playwright__*` for rich text editing and focus timer E2E tests
+
+### Post-Implementation:
+1. **Knowledge Graph**: Update with content management patterns, focus session architecture
+2. **Integration Documentation**: Store AI task extraction patterns and Web Worker timer implementation
+3. **Completion Summary**: `mcp__serena__write_memory("subgroup_7_complete", implementation_details)`
 
 ---
 

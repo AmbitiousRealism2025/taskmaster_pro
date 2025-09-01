@@ -24,48 +24,59 @@
 ### Total Compaction Points: 15 
 ### Expected Timeline: 15 weeks (includes Phase X.5 review-and-fix sessions)
 
-## Implementation Workflow (MUST FOLLOW)
+## Implementation Workflow with MCP Integration (MUST FOLLOW)
 
 ```
 FOR EACH OF THE 12 SUBGROUPS:
 ┌─────────────────────────────────────┐
-│ 1. START FRESH SESSION              │
+│ 1. START FRESH SESSION + MCP INIT   │
 │    - After previous compaction      │
 │    - Context usage should be <10%   │
+│    - Run /prime command             │
+│    - Verify all 4 MCP servers       │
 └─────────────────────────────────────┘
                 ↓
 ┌─────────────────────────────────────┐
-│ 2. LOAD DOCUMENTATION               │
-│    - Subgroup context doc           │
+│ 2. LOAD CONTEXT + DOCUMENTATION     │
+│    - mcp__memory__search_nodes()    │
+│    - mcp__serena__list_memories()   │
+│    - Load subgroup context doc      │
 │    - Related test file section      │
-│    - Applicable enhancements only   │
+│    - mcp__context7__ for framework  │
 └─────────────────────────────────────┘
                 ↓
 ┌─────────────────────────────────────┐
-│ 3. IMPLEMENT SUBGROUP               │
+│ 3. IMPLEMENT SUBGROUP + MCP STORE   │
 │    - Follow TDD (tests first)       │
 │    - Complete all functionality     │
+│    - mcp__serena__write_memory()    │
+│    - mcp__memory__create_entities() │
 │    - No partial implementations     │
 └─────────────────────────────────────┘
                 ↓
 ┌─────────────────────────────────────┐
-│ 4. TEST & VALIDATE                  │
+│ 4. TEST & VALIDATE + MCP EXECUTE    │
+│    - mcp__playwright__ for E2E      │
 │    - Run subgroup tests             │
 │    - Verify integration             │
 │    - Fix any failures               │
 └─────────────────────────────────────┘
                 ↓
 ┌─────────────────────────────────────┐
-│ 5. DOCUMENT & COMMIT                │
+│ 5. MCP UPDATE + DOCUMENT & COMMIT   │
+│    - mcp__memory__create_relations()│
+│    - mcp__serena__write_memory()    │
 │    - Update SUBGROUP_PROGRESS.md    │
 │    - Create git commit              │
-│    - Note any decisions/deviations  │
+│    - Store architectural decisions  │
 └─────────────────────────────────────┘
                 ↓
 ┌─────────────────────────────────────┐
-│ 6. MANDATORY COMPACTION             │
+│ 6. MANDATORY COMPACTION + MCP SAVE  │
+│    - Knowledge graph updated        │
+│    - Architectural context stored   │
 │    - Use /compact command           │
-│    - Verify clean state             │
+│    - Verify clean state + MCP saved │
 │    - Ready for next subgroup        │
 └─────────────────────────────────────┘
 ```
@@ -73,11 +84,13 @@ FOR EACH OF THE 12 SUBGROUPS:
 ## Phase 1: Foundation (5 Compaction Points)
 
 ### Subgroup 1: Infrastructure Foundation
-- **Context**: `context_docs/phase1/01_infrastructure_foundation.md`
+- **MCP Init**: `/prime` → verify Memory, Serena, Playwright, Context7 servers
+- **Context**: `context_docs/phase1/01_infrastructure_foundation.md`  
 - **Tests**: Phase1_Foundation_Tests.md (Tests 1-6)
 - **Enhancements**: None
 - **Dependencies**: None (first subgroup)
-- **COMPACT AFTER COMPLETION**
+- **MCP Store**: Project foundation, tech stack decisions, development patterns
+- **COMPACT AFTER COMPLETION** → Update knowledge graph
 
 ### Subgroup 2: Authentication & Security  
 - **Context**: `context_docs/phase1/02_authentication_security.md`
@@ -253,7 +266,7 @@ Each Phase X.5 should create:
 
 The 12-subgroup cycle becomes:
 1. **Phase 1**: Subgroups 1-5 → Phase 1.5 Review & Fix
-2. **Phase 2**: Subgroups 6-8 → Phase 2.5 Review & Fix  
+2. **Phase 2**: Subgroups 6-8 → Phase 2.5 Review & Fix ✅ COMPLETE  
 3. **Phase 3**: Subgroups 9-12 → Phase 3.5 Review & Fix
 
 **Total Sessions**: 12 subgroups + 3 phase reviews = **15 sessions**

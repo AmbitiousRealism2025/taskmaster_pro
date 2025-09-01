@@ -17,16 +17,29 @@ TaskMaster Pro is a full-stack productivity suite built with Test-Driven Develop
 
 ## Development Approach
 
+### ⚠️ CRITICAL: MCP Server Integration Requirements
+**MANDATORY**: All subgroups MUST utilize the 4 critical MCP servers for proper context management and development efficiency:
+
+1. **Memory MCP** - Persistent project knowledge graph
+2. **Serena MCP** - Semantic code analysis and architectural memory
+3. **Playwright MCP** - E2E test execution for all 165 TDD tests  
+4. **Context7 MCP** - Framework documentation access
+
+**Session Startup**: ALWAYS run `/prime` command to verify MCP server operational status before beginning any subgroup.
+
 ### ⚠️ CRITICAL: Compaction-Based Development Workflow
 **MANDATORY**: This project uses a subgroup-by-subgroup approach with compaction after EVERY subgroup:
-1. Complete one subgroup fully (implementation + tests)
-2. Update SUBGROUP_PROGRESS.md
-3. Create git commit
-4. **COMPACT SESSION** before moving to next subgroup
-5. Never attempt multiple subgroups without compacting
+1. **Initialize MCP Context**: Load previous memories and architectural context
+2. Complete one subgroup fully (implementation + tests)
+3. **Store MCP Context**: Update knowledge graph and architectural decisions
+4. Update SUBGROUP_PROGRESS.md
+5. Create git commit
+6. **COMPACT SESSION** before moving to next subgroup
+7. Never attempt multiple subgroups without compacting
 
 **Total Compaction Points**: 15 (12 subgroups + 3 Phase X.5 reviews)
 **Context Window Limit**: Never exceed 75% usage before compacting
+**MCP Integration**: Each compaction point MUST include knowledge graph updates
 
 ### Phase X.5 Review-and-Fix Methodology
 **CRITICAL DISCOVERY**: After completing all subgroups in each phase, conduct multi-agent collaborative review to identify critical blockers before advancing:
@@ -182,6 +195,35 @@ src/
 
 ## MCP Server Integration
 
+### 🚀 MANDATORY SUBGROUP WORKFLOW WITH MCP INTEGRATION
+
+**CRITICAL**: Every subgroup MUST follow this MCP-integrated workflow:
+
+#### Phase 1: Subgroup Initialization (REQUIRED)
+1. **Session Startup**: Run `/prime` command to verify all MCP servers operational
+2. **Load Context**: 
+   ```javascript
+   mcp__memory__search_nodes("subgroup_X") // Find related components/patterns
+   mcp__serena__list_memories() // Review previous architectural decisions
+   mcp__serena__read_memory("relevant_pattern") // Load specific context
+   ```
+3. **Framework Questions**: Use `mcp__context7__resolve-library-id()` for documentation needs
+
+#### Phase 2: Implementation (CONTINUOUS)
+1. **Store Decisions**: `mcp__serena__write_memory()` for architectural choices
+2. **Update Relationships**: `mcp__memory__create_entities()` for new components
+3. **Test Execution**: `mcp__playwright__*` commands for E2E test validation
+
+#### Phase 3: Subgroup Completion (REQUIRED)
+1. **Knowledge Graph Update**: 
+   ```javascript
+   mcp__memory__create_relations() // Component relationships
+   mcp__memory__add_observations() // Implementation details
+   ```
+2. **Architectural Summary**: `mcp__serena__write_memory("subgroup_X_complete")`
+3. **Progress Documentation**: Update SUBGROUP_PROGRESS.md
+4. **Git Commit**: Create descriptive commit with MCP context preserved
+
 ### 🚀 SESSION STARTUP PROCEDURE (Run /prime command first)
 
 When starting a new Claude session in the terminal, **always run the /prime command** which will:
@@ -198,21 +240,25 @@ These four servers MUST be operational before starting implementation:
    - Purpose: Persistent context across sessions and compaction points
    - Test: `write_memory("test", "Hello")` then `read_memory("test")`
    - Used for: Storing architectural decisions, progress tracking
+   - **Workflow Integration**: Load context at subgroup start, update at completion
 
 2. **playwright** ✅ Required  
    - Purpose: E2E testing for all 165 TDD tests
    - Test: Launch a browser window
    - Installation: `npm install -g @executeautomation/playwright-mcp-server`
+   - **Workflow Integration**: Execute tests during implementation phase
 
 3. **context7** ✅ Required
    - Purpose: Framework documentation and patterns
    - Test: Search for Next.js or React documentation
    - Installation: `npm install -g @upstash/context7-mcp`
+   - **Workflow Integration**: Access documentation during implementation questions
 
 4. **serena** ✅ Required
    - Purpose: Semantic code analysis and refactoring
    - Test: Will activate once first .ts/.tsx files are created
    - Config: `.serena/project.yml` already configured
+   - **Workflow Integration**: Store architectural decisions throughout subgroup
 
 ### MCP Server Status Check Commands
 

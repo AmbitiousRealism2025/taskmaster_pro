@@ -8,35 +8,46 @@ This document provides the step-by-step workflow for implementing each of the 12
 
 ## Pre-Implementation Checklist (Start of Each Subgroup)
 
-### Session Preparation
+### Session Preparation + MCP Initialization
 ```bash
 # 1. Check current context state
 Context usage should be <10% at start
 
-# 2. Verify previous subgroup completion
+# 2. MANDATORY: Run /prime command
+# Verifies all 4 MCP servers (Memory, Serena, Playwright, Context7) are operational
+
+# 3. Initialize MCP Context Loading
+mcp__memory__search_nodes("subgroup_X OR phase_X OR component_name")
+mcp__serena__list_memories()  # Review previous architectural decisions
+mcp__serena__read_memory("relevant_pattern")  # Load specific context if found
+
+# 4. Verify previous subgroup completion
 git log --oneline -5  # Should show previous subgroup commit
 npm test -- --grep="previous-subgroup"  # Should pass
 
-# 3. Create feature branch
+# 5. Create feature branch
 git checkout dev
 git pull origin dev
 git checkout -b feature/phaseX-subgroupY-description
 
-# 4. Document session start
+# 6. Document session start
 echo "Starting Subgroup X: [Name] - $(date)" >> SESSION_LOG.md
 ```
 
-### Documentation Loading
+### Documentation Loading + MCP Framework Access
 ```markdown
 LOAD ONLY THESE DOCUMENTS:
 1. Primary: context_docs/phaseX/0Y_subgroup_name.md
 2. Tests: PhaseX_Tests.md (specific section only)
 3. Enhancements: Only if listed in IMPLEMENTATION_GUIDE.md
-4. DO NOT LOAD: Future phases, unrelated subgroups, UI mockups
+4. MCP Framework: Use mcp__context7__resolve-library-id() for framework questions
+5. DO NOT LOAD: Future phases, unrelated subgroups, UI mockups
 ```
 
-### Context Check
+### Context Check + MCP Verification
 - [ ] Context usage <20% after loading docs
+- [ ] All 4 MCP servers operational (/prime completed successfully)
+- [ ] Previous MCP context loaded (memories and knowledge graph)
 - [ ] Previous tests still passing
 - [ ] Git branch created
 - [ ] Session documented
@@ -69,82 +80,124 @@ npm install -D eslint prettier eslint-config-prettier
 npx prisma init
 ```
 
-### Step 2: Write Failing Tests First (TDD)
+### Step 2: Write Failing Tests First (TDD) + MCP Context Storage
 
 ```typescript
 // 1. Create test file for subgroup
 mkdir -p src/__tests__/phaseX
 touch src/__tests__/phaseX/subgroupY.test.ts
 
-// 2. Copy tests from PhaseX_Tests.md
-// 3. Ensure all tests fail initially
+// 2. Store architectural context in MCP
+mcp__serena__write_memory("subgroup_X_start", "Beginning TDD implementation for [functionality]")
+
+// 3. Copy tests from PhaseX_Tests.md
+// 4. Ensure all tests fail initially
 npm test -- src/__tests__/phaseX/subgroupY.test.ts
+
+// 5. Document test structure in knowledge graph
+mcp__memory__create_entities([{
+  "name": "SubgroupX_Tests", 
+  "entityType": "test_suite", 
+  "observations": ["TDD tests for [functionality]", "Expected failures documented"]
+}])
 
 // Expected: All tests should fail (red phase)
 ```
 
-### Step 3: Implement Core Functionality
+### Step 3: Implement Core Functionality + MCP Pattern Storage
 
 Follow this order for each subgroup:
 
-#### A. Data Layer (if applicable)
+#### A. Data Layer (if applicable) + MCP Schema Storage
 ```typescript
 // 1. Define Prisma models
-// 2. Create migrations
+// 2. Store schema decisions
+mcp__serena__write_memory("schema_design_subgroup_X", "Database schema patterns and relationships")
+
+// 3. Create migrations
 npx prisma migrate dev --name add_subgroup_models
 
-// 3. Generate Prisma client
+// 4. Generate Prisma client
 npx prisma generate
 
-// 4. Create repository layer
+// 5. Create repository layer + store patterns
 mkdir -p src/lib/repositories
+mcp__memory__create_entities([{"name": "Repository_Pattern", "entityType": "architecture_pattern", "observations": ["Data access layer implementation"]}])
 ```
 
-#### B. API Routes (if applicable)
+#### B. API Routes (if applicable) + MCP API Patterns
 ```typescript
 // 1. Create API route structure
 mkdir -p src/app/api/subgroup-endpoint
 
-// 2. Implement route handlers
-// 3. Add validation with Zod
-// 4. Include error handling
+// 2. Store API design decisions
+mcp__serena__write_memory("api_design_subgroup_X", "RESTful patterns, validation approach, error handling")
+
+// 3. Implement route handlers
+// 4. Add validation with Zod  
+// 5. Include error handling
+// 6. Document patterns in knowledge graph
+mcp__memory__create_entities([{"name": "API_Routes_SubgroupX", "entityType": "api_layer", "observations": ["CRUD operations", "Validation patterns", "Error handling"]}])
 ```
 
-#### C. UI Components (if applicable)
+#### C. UI Components (if applicable) + MCP Component Patterns
 ```typescript
 // 1. Create component structure
 mkdir -p src/components/subgroup-name
 
-// 2. Build with shadcn/ui patterns
-// 3. Add proper TypeScript types
-// 4. Include loading/error states
+// 2. Store component design decisions
+mcp__serena__write_memory("ui_patterns_subgroup_X", "Component architecture, shadcn/ui usage, state patterns")
+
+// 3. Build with shadcn/ui patterns
+// 4. Add proper TypeScript types
+// 5. Include loading/error states
+// 6. Document component relationships
+mcp__memory__create_relations([{"from": "SubgroupX_Components", "relationType": "uses", "to": "shadcn_ui"}])
 ```
 
-#### D. State Management (if applicable)
+#### D. State Management (if applicable) + MCP State Patterns
 ```typescript
 // 1. Create Zustand stores
 mkdir -p src/stores
 
-// 2. Implement TanStack Query hooks
+// 2. Store state management decisions  
+mcp__serena__write_memory("state_architecture_subgroup_X", "Zustand patterns, TanStack Query integration, client/server state separation")
+
+// 3. Implement TanStack Query hooks
 mkdir -p src/hooks
 
-// 3. Add proper type definitions
+// 4. Add proper type definitions
+// 5. Document state flow in knowledge graph
+mcp__memory__create_entities([{"name": "State_Management_SubgroupX", "entityType": "state_layer", "observations": ["Client state patterns", "Server state caching", "Optimistic updates"]}])
 ```
 
-### Step 4: Integration Testing
+### Step 4: Integration Testing + MCP Test Execution
 
 ```bash
+# Use MCP Playwright for E2E testing
+mcp__playwright__playwright_navigate("http://localhost:3000")
+mcp__playwright__playwright_screenshot({"name": "subgroup_X_implementation"})
+
 # Run subgroup-specific tests
 npm test -- src/__tests__/phaseX/subgroupY.test.ts
 
 # Run integration tests with previous subgroups
 npm test -- src/__tests__/integration/
 
+# Document test results in MCP
+mcp__serena__write_memory("test_results_subgroup_X", "Test execution summary, coverage, issues resolved")
+
 # Run type checking
 npm run type-check
 
 # Run linting
 npm run lint
+
+# Store testing patterns and results
+mcp__memory__add_observations([{
+  "entityName": "SubgroupX_Tests",
+  "contents": ["All tests passing", "Integration verified", "Type checking clean"]
+}])
 ```
 
 ### Step 5: Fix Until Green
