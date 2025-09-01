@@ -151,7 +151,7 @@
 
 ### ✅ Subgroup 6: Task Management Core - ENHANCED
 - **Status**: Complete ✅
-- **Context Doc**: `context_docs/phase2/01_task_management_core.md`
+- **Context Doc**: `06_task_management_core.md`
 - **Tests**: Phase2_Feature_Tests.md (Tests 1-12)
 - **Prerequisites**: Phase 1.5 Complete (Supabase Integration)
 - **Planned Start**: 2025-09-01
@@ -174,7 +174,7 @@
 
 ### ⏳ Subgroup 7: Content & Focus Systems - ENHANCED
 - **Status**: Not Started
-- **Context Doc**: `context_docs/phase2/02_content_focus_systems.md`
+- **Context Doc**: `07_content_focus_systems.md`
 - **Tests**: Phase2_Feature_Tests.md (Tests 13-22)
 - **Enhanced**: Includes dashboard completion fixes + Supabase capabilities
 - **Prerequisites**: Subgroup 6 Complete
@@ -191,7 +191,7 @@
 
 ### ⏳ Subgroup 8: Real-time & State Orchestration - TRANSFORMED
 - **Status**: Not Started
-- **Context Doc**: `context_docs/phase2/03_realtime_state_orchestration.md`
+- **Context Doc**: `08_realtime_state_orchestration.md`
 - **Tests**: Phase2_Feature_Tests.md (Tests 23-29)
 - **Prerequisites**: Subgroups 6-7 Complete
 - **Planned Start**: After Subgroups 6-7
