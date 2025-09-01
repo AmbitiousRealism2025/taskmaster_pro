@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-TaskMaster Pro is a full-stack productivity suite built with Test-Driven Development (TDD) methodology. The project is organized into three development phases with 12 specialized subgroups for parallel development.
+TaskMaster Pro is a full-stack productivity suite built with Test-Driven Development (TDD) methodology. The project is organized into three development phases with 12 specialized subgroups plus Phase X.5 review-and-fix sessions, totaling 15 development sessions.
 
 ## Architecture & Tech Stack
 
@@ -17,26 +17,99 @@ TaskMaster Pro is a full-stack productivity suite built with Test-Driven Develop
 
 ## Development Approach
 
+### ⚠️ CRITICAL: MCP Server Integration Requirements
+**MANDATORY**: All subgroups MUST utilize the 4 critical MCP servers for proper context management and development efficiency:
+
+1. **Memory MCP** - Persistent project knowledge graph
+2. **Serena MCP** - Semantic code analysis and architectural memory
+3. **Playwright MCP** - E2E test execution for all 165 TDD tests  
+4. **Context7 MCP** - Framework documentation access
+
+**Session Startup**: ALWAYS run `/prime` command to verify MCP server operational status before beginning any subgroup.
+
 ### ⚠️ CRITICAL: Compaction-Based Development Workflow
 **MANDATORY**: This project uses a subgroup-by-subgroup approach with compaction after EVERY subgroup:
-1. Complete one subgroup fully (implementation + tests)
-2. Update SUBGROUP_PROGRESS.md
-3. Create git commit
-4. **COMPACT SESSION** before moving to next subgroup
-5. Never attempt multiple subgroups without compacting
+1. **Initialize MCP Context**: Load previous memories and architectural context
+2. Complete one subgroup fully (implementation + tests)
+3. **Store MCP Context**: Update knowledge graph and architectural decisions
+4. Update SUBGROUP_PROGRESS.md
+5. Create git commit
+6. **COMPACT SESSION** before moving to next subgroup
+7. Never attempt multiple subgroups without compacting
 
-**Total Compaction Points**: 12 (one after each subgroup)
+**Total Compaction Points**: 15 (12 subgroups + 3 Phase X.5 reviews)
 **Context Window Limit**: Never exceed 75% usage before compacting
+**MCP Integration**: Each compaction point MUST include knowledge graph updates
+
+### Phase X.5 Review-and-Fix Methodology
+**CRITICAL DISCOVERY**: After completing all subgroups in each phase, conduct multi-agent collaborative review to identify critical blockers before advancing. This systematic approach ensures production readiness through quality gates.
+
+#### **Phase X.5 Structure & Organization**
+**Folder Structure**: `context_docs/phaseX/phaseX.5/`
+- **Review Report**: `PHASE_X_COMPREHENSIVE_REVIEW_REPORT.md`
+- **Overview Document**: `PHASE_X.5_OVERVIEW.md` 
+- **Subgroup Context Docs**: `X.5.1_subgroup_name.md`, `X.5.2_subgroup_name.md`, etc.
+
+#### **Phase X.5 Implementation Phases**
+- **Phase 1.5**: Review after subgroups 1-5 → Infrastructure improvements → Approve Phase 2
+- **Phase 2.5**: Review after subgroups 6-8 → Quality & production readiness → Approve Phase 3  
+- **Phase 3.5**: Review after subgroups 9-12 → Final production hardening → Production deployment
+
+#### **Phase X.5 Multi-Agent Review Process**
+1. **Collaborative Review**: Deploy 5+ specialized agents (Frontend, Backend, Design, Security, etc.)
+2. **Comprehensive Assessment**: Score each domain (0-100) with detailed findings
+3. **Critical Issue Classification**: 🔴 Production Blockers, 🟡 Quality Improvements, 🟢 Future Enhancements
+4. **Subgroup Structure Creation**: Break improvements into context-efficient subgroups (3-5 subgroups typical)
+5. **MCP Integration Strategy**: Define specialized agent usage for each improvement subgroup
+6. **Quality Transformation Plan**: Define current → target quality scores with measurable improvements
+
+#### **Phase X.5 Subgroup Characteristics**
+- **Context Efficiency**: Each subgroup designed for single-session completion
+- **Domain Focus**: Focused improvements (visual design, accessibility, security, performance, etc.)
+- **Estimated Effort**: 8-18 hours per subgroup with MCP integration
+- **Compaction Requirements**: Mandatory compaction after each X.5 subgroup
+- **Quality Gates**: Multi-agent validation before subgroup completion
+
+#### **Phase X.5 Documentation Standards**
+**Review Report Format**:
+- Executive summary with composite quality scores
+- Detailed agent reports with domain-specific findings
+- Critical issues with impact assessment and estimated effort
+- Success criteria and validation checklists
+
+**Subgroup Context Doc Format**:
+- Objectives and success metrics clearly defined
+- MCP integration strategy specified
+- Implementation approach with quality gates
+- Testing strategy and validation requirements
+- Deliverables and integration points documented
+
+**Overview Document Format**:
+- Phase X.5 mission and quality transformation goals
+- Subgroup breakdown with effort estimates
+- MCP utilization strategy across all subgroups
+- Business impact and ROI analysis
+- Success criteria and expected outcomes
+
+#### **Phase X.5 Success Metrics**
+- **Quality Score Improvement**: Minimum +5 points composite score improvement
+- **Production Readiness**: Address all 🔴 critical production blockers
+- **Enterprise Compliance**: Achieve accessibility, security, and performance standards
+- **User Experience**: Measurable improvements in usability and engagement
+- **Technical Debt**: Systematic elimination of identified technical debt
+
+**Phase X.5 Integration**: Multi-agent review → Structured improvements → Quality transformation → Phase advancement
 
 ### TDD Methodology
 1. **Tests First**: All features must have failing tests written before implementation
 2. **Phase Gates**: 100% test pass rate required before advancing to next phase
 3. **Test Coverage**: 165 total tests across all phases
 
-### Phase Structure
-- **Phase 1 (Weeks 1-4)**: Foundation & Infrastructure - 5 subgroups
-- **Phase 2 (Weeks 5-8)**: Core Features - 3 subgroups  
-- **Phase 3 (Weeks 9-12)**: Production - 4 subgroups
+### Phase Structure  
+- **Phase 1**: Foundation & Infrastructure - 5 subgroups + Phase 1.5 review
+- **Phase 2**: Core Features - 3 subgroups + Phase 2.5 review
+- **Phase 3**: Production - 4 subgroups + Phase 3.5 review
+- **Total**: 15 sessions (12 subgroups + 3 Phase X.5 reviews)
 
 Each subgroup has:
 - Coding context document in `context_docs/phase[1-3]/`
@@ -139,6 +212,13 @@ src/
 
 ## Development Workflow
 
+### Enterprise Branching Strategy
+**Critical**: TaskMaster Pro uses a **subgroup-based branching strategy** with built-in safety nets:
+- Each subgroup creates a permanent fallback branch (`feature/phase1-subgroup[N]-[name]`)
+- 5 recovery points across Phase 1 development
+- Zero-risk development with granular rollback capabilities
+- **Full Documentation**: `BRANCHING_STRATEGY.md`
+
 ### Subgroup Implementation Process (MUST FOLLOW):
 1. **Load Documentation**: Only load the specific subgroup context doc + tests
 2. **Implement Subgroup**: Complete all functionality for that subgroup
@@ -152,6 +232,12 @@ src/
 2. **Green Phase**: Minimal implementation to pass tests
 3. **Refactor Phase**: Improve code quality while keeping tests green
 
+### Phase End Code Reviews:
+1. **Collaborative Review**: Multi-agent code review at end of each phase
+2. **Specialist Analysis**: Backend, Frontend, Senior Code Review, + Serena MCP
+3. **Documentation**: Scribe agent generates comprehensive phase report
+4. **Process**: Complete phase → Code review → Generate report → Compact → Next phase
+
 ### Context Management:
 - **Green Zone (0-40%)**: Safe to continue
 - **Yellow Zone (40-60%)**: Prepare for compaction
@@ -160,17 +246,125 @@ src/
 
 ## MCP Server Integration
 
-The following MCP servers are configured and available:
-- **filesystem**: File system operations in the TaskMaster Pro directory
-- **memory**: Persistent memory across sessions for project context
-- **playwright**: Browser automation and E2E testing (globally installed)
-- **context7**: Documentation patterns and library references (globally installed)
-- **cerebras**: Fast code generation at 2,000 tokens/sec (globally installed)
+### 🚀 MANDATORY SUBGROUP WORKFLOW WITH MCP INTEGRATION
+
+**CRITICAL**: Every subgroup MUST follow this MCP-integrated workflow:
+
+#### Phase 1: Subgroup Initialization (REQUIRED)
+1. **Session Startup**: Run `/prime` command to verify all MCP servers operational
+2. **Load Context**: 
+   ```javascript
+   mcp__memory__search_nodes("subgroup_X") // Find related components/patterns
+   mcp__serena__list_memories() // Review previous architectural decisions
+   mcp__serena__read_memory("relevant_pattern") // Load specific context
+   ```
+3. **Framework Questions**: Use `mcp__context7__resolve-library-id()` for documentation needs
+
+#### Phase 2: Implementation (CONTINUOUS)
+1. **Store Decisions**: `mcp__serena__write_memory()` for architectural choices
+2. **Update Relationships**: `mcp__memory__create_entities()` for new components
+3. **Test Execution**: `mcp__playwright__*` commands for E2E test validation
+
+#### Phase 3: Subgroup Completion (REQUIRED)
+1. **Knowledge Graph Update**: 
+   ```javascript
+   mcp__memory__create_relations() // Component relationships
+   mcp__memory__add_observations() // Implementation details
+   ```
+2. **Architectural Summary**: `mcp__serena__write_memory("subgroup_X_complete")`
+3. **Progress Documentation**: Update SUBGROUP_PROGRESS.md
+4. **Git Commit**: Create descriptive commit with MCP context preserved
+
+### 🚀 SESSION STARTUP PROCEDURE (Run /prime command first)
+
+When starting a new Claude session in the terminal, **always run the /prime command** which will:
+1. Check git status and list all project files
+2. Read key documentation files (README.md, CLAUDE.md, etc.)
+3. Verify and report status of all MCP servers
+4. Provide a comprehensive project understanding summary
+
+### Critical MCP Servers Required for TaskMaster Pro
+
+These four servers MUST be operational before starting implementation:
+
+1. **memory** ✅ Required
+   - Purpose: Persistent context across sessions and compaction points
+   - Test: `write_memory("test", "Hello")` then `read_memory("test")`
+   - Used for: Storing architectural decisions, progress tracking
+   - **Workflow Integration**: Load context at subgroup start, update at completion
+
+2. **playwright** ✅ Required  
+   - Purpose: E2E testing for all 165 TDD tests
+   - Test: Launch a browser window
+   - Installation: `npm install -g @executeautomation/playwright-mcp-server`
+   - **Workflow Integration**: Execute tests during implementation phase
+
+3. **context7** ✅ Required
+   - Purpose: Framework documentation and patterns
+   - Test: Search for Next.js or React documentation
+   - Installation: `npm install -g @upstash/context7-mcp`
+   - **Workflow Integration**: Access documentation during implementation questions
+
+4. **serena** ✅ Required
+   - Purpose: Semantic code analysis and refactoring
+   - Test: Will activate once first .ts/.tsx files are created
+   - Config: `.serena/project.yml` already configured
+   - **Workflow Integration**: Store architectural decisions throughout subgroup
+
+### MCP Server Status Check Commands
+
+Run these checks at session start to verify MCP availability:
+
+```javascript
+// 1. Memory Server Check
+"Test memory MCP: write and read a test value"
+
+// 2. Playwright Server Check  
+"Test playwright MCP: check if browser automation tools are available"
+
+// 3. Context7 Server Check
+"Test context7 MCP: search for Next.js App Router documentation"
+
+// 4. Serena Server Check (after creating first source file)
+"Test Serena MCP: analyze project structure"
+```
+
+### Expected MCP Server Status Report Format
+
+After running /prime, you should see:
+
+```
+MCP SERVER STATUS REPORT
+========================
+✅ Memory      - write_memory, read_memory, list_memories available
+✅ Playwright  - Browser automation tools available
+✅ Context7    - Documentation search tools available
+⚠️  Serena     - Configured, awaiting source files
+
+Ready to proceed: YES/NO
+```
+
+### If MCP Servers Are Not Available
+
+**STOP** - Do not proceed with implementation without the 4 critical servers:
+
+1. Ensure you're using Claude Desktop app (not VS Code extension)
+2. Check configuration: `~/Library/Application Support/Claude/claude_desktop_config.json`
+3. Restart Claude Desktop completely (Cmd+Q, then reopen)
+4. Verify installations:
+   ```bash
+   npm list -g | grep -E "playwright-mcp|context7-mcp"
+   which uvx  # For Serena
+   ```
+
+### Additional MCP Servers (Optional but Helpful)
+
 - **sequential-thinking**: Complex analysis and debugging
-- **github/gitlab**: Version control operations (requires token configuration)
-- **postgres/sqlite**: Database operations for project data
-- **fetch**: Web fetching capabilities for external resources
-- **brave-search**: Web search functionality (requires API key)
+- **cerebras**: Fast code generation at 2,000 tokens/sec
+- **github/gitlab**: Version control operations (requires token)
+- **postgres/sqlite**: Database operations
+- **fetch**: Web fetching capabilities
+- **brave-search**: Web search (requires API key)
 
 ## Testing Commands (Future)
 
@@ -196,14 +390,15 @@ npx prisma generate
 ## Important Notes
 
 ### ⚠️ Critical Rules:
-- **COMPACTION IS MANDATORY** - Never skip the 12 compaction points
+- **COMPACTION IS MANDATORY** - Never skip the 15 compaction points (12 subgroups + 3 Phase X.5)
 - **One subgroup at a time** - Never attempt multiple subgroups in one session
+- **Phase X.5 Reviews Required** - Must conduct multi-agent review after each phase completion
 - **Context limit is 75%** - Compact immediately if approaching this limit
 - **Tests must pass 100%** - No moving forward with failing tests
 
 ### Development Guidelines:
 - This is a **TDD project** - tests are already written, implement to pass them
-- Follow the **12-subgroup plan** strictly - no jumping ahead
+- Follow the **15-session plan** strictly - 12 subgroups + 3 Phase X.5 reviews
 - Maintain **design system consistency** across all components
 - **Agent integration** is core to the product - prioritize AI features
 - **Accessibility first** - every component must meet WCAG standards

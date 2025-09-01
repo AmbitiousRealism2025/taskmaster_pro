@@ -1,0 +1,204 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// 
+// Compatible with Supabase PostgreSQL
+// Real-time subscriptions available via Supabase client
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  name           String?
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?   // For credential authentication
+  
+  // Authentication
+  accounts Account[]
+  sessions Session[]
+  
+  // Application data
+  projects Project[]
+  tasks    Task[]
+  notes    Note[]
+  folders  Folder[]
+  habits   Habit[]
+  
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  color       String   @default("#6366f1")
+  userId      String
+  
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks Task[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("projects")
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS  
+  COMPLETED
+  CANCELLED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  status      TaskStatus @default(TODO)
+  priority    Priority   @default(MEDIUM)
+  dueDate     DateTime?
+  estimatedMinutes Int?
+  actualMinutes    Int?
+  
+  userId    String
+  projectId String?
+  
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  completedAt DateTime?
+  
+  @@map("tasks")
+}
+
+model Note {
+  id               String  @id @default(cuid())
+  title            String
+  content          String  @db.Text
+  plainTextContent String? @db.Text
+  
+  // Organization
+  folderId         String?
+  tags             String[] @default([])
+  isPinned         Boolean @default(false)
+  isArchived       Boolean @default(false)
+  
+  // AI Features
+  extractedTasks   String[] @default([])
+  aiSummary        String?
+  aiTopics         String[] @default([])
+  
+  // Sharing & Collaboration
+  isShared         Boolean @default(false)
+  sharedWith       String[] @default([])
+  
+  // Metadata
+  userId           String
+  lastViewedAt     DateTime?
+  
+  // Relations
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folder Folder? @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("notes")
+}
+
+model Folder {
+  id        String @id @default(cuid())
+  name      String
+  color     String @default("#6366f1")
+  parentId  String?
+  path      String @default("")
+  userId    String
+  
+  // Relations
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent   Folder?  @relation("FolderHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children Folder[] @relation("FolderHierarchy")
+  notes    Note[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("folders")
+}
+
+model Habit {
+  id          String @id @default(cuid())
+  name        String
+  description String?
+  color       String @default("#10b981")
+  targetFreq  Int    @default(1) // times per day
+  userId      String
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("habits")
+}

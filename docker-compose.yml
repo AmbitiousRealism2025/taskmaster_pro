@@ -1,0 +1,64 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://taskmaster:password@db:5432/taskmaster_dev
+      - NEXTAUTH_SECRET=dev-secret-key
+      - NEXTAUTH_URL=http://localhost:3000
+    depends_on:
+      - db
+      - redis
+    networks:
+      - taskmaster-network
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=taskmaster
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=taskmaster_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - taskmaster-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - taskmaster-network
+
+  test-db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=taskmaster
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=taskmaster_test
+    ports:
+      - "5433:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+    networks:
+      - taskmaster-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  taskmaster-network:
+    driver: bridge

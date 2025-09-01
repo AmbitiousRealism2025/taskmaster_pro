@@ -1,0 +1,16 @@
+project_name: TaskMaster_Pro
+language: typescript
+description: Full-stack productivity suite built with TDD methodology
+root_path: /Users/ambrealismwork/Desktop/Coding-Projects/TaskMaster_Pro
+include_patterns:
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.js"
+  - "**/*.jsx"
+  - "**/*.json"
+  - "**/*.md"
+exclude_patterns:
+  - "node_modules/**"
+  - ".next/**"
+  - "dist/**"
+  - "build/**"

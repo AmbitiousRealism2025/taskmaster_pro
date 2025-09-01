@@ -16,9 +16,10 @@ These are your main guides for implementation:
 3. **SUBGROUP_PROGRESS.md** - Track progress and compaction points
 4. **DOCUMENTATION_MAP.md** - This file, showing all relationships
 
-### Development Standards
+### Development Standards & Methodology
 1. **CLAUDE.md** - Coding standards and project conventions
 2. **README.md** - Project overview and current status
+3. **PHASE_X.5_METHODOLOGY.md** - Comprehensive quality assurance methodology
 
 ---
 
@@ -65,6 +66,34 @@ Located in `context_docs/security_enhancements/`
 | SECURITY_PATCH_SUMMARY.md | Executive summary of fixes | Reference only |
 | SECURITY_TEST_SUITE.md | Security validation tests | Subgroups 2, 5, 12 |
 | SQL_INJECTION_FIXES.md | Safe query patterns | Subgroup 5 |
+
+---
+
+## 🔍 Phase X.5 Review & Improvement Documents
+
+Phase X.5 implements systematic quality assurance through multi-agent review and structured improvements.
+
+### Phase 2.5 (Post-Core Features Review)
+Located in `context_docs/phase2/phase2.5/`
+
+| File | Purpose | Focus Area |
+|------|---------|------------|
+| PHASE_2_COMPREHENSIVE_REVIEW_REPORT.md | Multi-agent quality assessment | Complete Phase 2 evaluation |
+| PHASE_2.5_OVERVIEW.md | Quality transformation strategy | Improvement roadmap |
+| 2.5.1_visual_design_brand_identity.md | Purple-to-teal gradient system | Visual design transformation |
+| 2.5.2_accessibility_mobile_experience.md | WCAG 2.1 AA & mobile optimization | User experience enhancement |
+| 2.5.3_security_performance_production.md | RLS policies & monitoring | Production readiness |
+
+### Future Phase X.5 Structure (Template)
+- **Phase 1.5**: Post-foundation infrastructure improvements
+- **Phase 3.5**: Post-production final hardening and deployment
+
+### Phase X.5 Integration Pattern
+1. **Multi-Agent Review**: Deploy 5+ specialized agents for comprehensive assessment
+2. **Issue Classification**: 🔴 Production Blockers, 🟡 Quality Improvements, 🟢 Future Enhancements  
+3. **Subgroup Creation**: Break improvements into context-efficient subgroups (3-5 typical)
+4. **Quality Transformation**: Target minimum +5 point composite quality score improvement
+5. **Production Readiness**: Systematic elimination of all critical production blockers
 
 ---
 
