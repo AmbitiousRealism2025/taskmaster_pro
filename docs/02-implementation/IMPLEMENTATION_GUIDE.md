@@ -111,7 +111,7 @@ FOR EACH OF THE 12 SUBGROUPS + PHASE X.5 SUBGROUPS:
 │ 5. MCP UPDATE + DOCUMENT & COMMIT   │
 │    - mcp__memory__create_relations()│
 │    - mcp__serena__write_memory()    │
-│    - Update SUBGROUP_PROGRESS.md    │
+│    - Update docs/02-implementation/SUBGROUP_PROGRESS.md    │
 │    - Create git commit              │
 │    - Store architectural decisions  │
 └─────────────────────────────────────┘
@@ -131,7 +131,7 @@ FOR EACH OF THE 12 SUBGROUPS + PHASE X.5 SUBGROUPS:
 ### Subgroup 1: Infrastructure Foundation
 - **MCP Init**: `/prime` → verify Memory, Serena, Playwright, Context7 servers
 - **Context**: `context_docs/phase1/01_infrastructure_foundation.md`  
-- **Tests**: Phase1_Foundation_Tests.md (Tests 1-6)
+- **Tests**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 1-6)
 - **Enhancements**: None
 - **Dependencies**: None (first subgroup)
 - **MCP Store**: Project foundation, tech stack decisions, development patterns
@@ -139,7 +139,7 @@ FOR EACH OF THE 12 SUBGROUPS + PHASE X.5 SUBGROUPS:
 
 ### Subgroup 2: Authentication & Security  
 - **Context**: `context_docs/phase1/02_authentication_security.md`
-- **Tests**: Phase1_Foundation_Tests.md (Tests 7-11)
+- **Tests**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 7-11)
 - **Enhancements**: 
   - `security_enhancements/SECURE_AUTH_REPLACEMENT.md`
   - `security_enhancements/SECURITY_AUDIT_REPORT.md`
@@ -148,21 +148,21 @@ FOR EACH OF THE 12 SUBGROUPS + PHASE X.5 SUBGROUPS:
 
 ### Subgroup 3: Design System & Core UI
 - **Context**: `context_docs/phase1/03_design_system_core_ui.md`
-- **Tests**: Phase1_Foundation_Tests.md (Tests 12-17)
+- **Tests**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 12-17)
 - **Enhancements**: None
 - **Dependencies**: Subgroups 1-2 complete
 - **COMPACT AFTER COMPLETION**
 
 ### Subgroup 4: Dashboard Layout & Navigation
 - **Context**: `context_docs/phase1/04_dashboard_layout_navigation.md`
-- **Tests**: Phase1_Foundation_Tests.md (Tests 18-23)
+- **Tests**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 18-23)
 - **Enhancements**: None
 - **Dependencies**: Subgroups 1-3 complete
 - **COMPACT AFTER COMPLETION**
 
 ### Subgroup 5: Core API & Data Management
 - **Context**: `context_docs/phase1/05_core_api_data_management.md`
-- **Tests**: Phase1_Foundation_Tests.md (Tests 24-32)
+- **Tests**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 24-32)
 - **Enhancements**:
   - `security_enhancements/SECURE_DATABASE_REPLACEMENT.md`
   - `security_enhancements/SQL_INJECTION_FIXES.md`
@@ -173,21 +173,21 @@ FOR EACH OF THE 12 SUBGROUPS + PHASE X.5 SUBGROUPS:
 
 ### Subgroup 6: Task Management Core
 - **Context**: `context_docs/phase2/06_task_management_core.md`
-- **Tests**: Phase2_Feature_Tests.md (Tests 1-12)
+- **Tests**: docs/04-testing/Phase2_Feature_Tests.md (Tests 1-12)
 - **Enhancements**: None
 - **Dependencies**: Phase 1 complete
 - **COMPACT AFTER COMPLETION**
 
 ### Subgroup 7: Content & Focus Systems
 - **Context**: `context_docs/phase2/07_content_focus_systems.md`
-- **Tests**: Phase2_Feature_Tests.md (Tests 13-22)
+- **Tests**: docs/04-testing/Phase2_Feature_Tests.md (Tests 13-22)
 - **Enhancements**: Dashboard completion fixes included
 - **Dependencies**: Subgroup 6 complete
 - **COMPACT AFTER COMPLETION**
 
 ### Subgroup 8: Real-time & State Orchestration
 - **Context**: `context_docs/phase2/08_realtime_state_orchestration.md`
-- **Tests**: Phase2_Feature_Tests.md (Tests 23-29)
+- **Tests**: docs/04-testing/Phase2_Feature_Tests.md (Tests 23-29)
 - **Enhancements**: None
 - **Dependencies**: Subgroups 6-7 complete
 - **COMPACT AFTER COMPLETION**
@@ -479,7 +479,7 @@ Before marking a subgroup complete and compacting:
 - [ ] TypeScript types complete
 - [ ] Documentation updated
 - [ ] Git commit created
-- [ ] SUBGROUP_PROGRESS.md updated
+- [ ] docs/02-implementation/SUBGROUP_PROGRESS.md updated
 - [ ] Context usage checked (<60% ideal)
 - [ ] Ready to compact
 
@@ -499,7 +499,7 @@ Before marking a subgroup complete and compacting:
 4. Fix issues before proceeding
 
 ### If Unclear on Next Steps
-1. Check SUBGROUP_PROGRESS.md
+1. Check docs/02-implementation/SUBGROUP_PROGRESS.md
 2. Verify last completed subgroup
 3. Load next subgroup documentation
 4. Continue with workflow

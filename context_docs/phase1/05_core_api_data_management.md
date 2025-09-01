@@ -3,7 +3,7 @@
 ## ⚠️ Implementation Notes
 - **Subgroup Number**: 5 (Core API Layer & Data Management)
 - **Compact After Completion**: MANDATORY - Must compact before proceeding to Subgroup 6
-- **Test Coverage**: Phase1_Foundation_Tests.md (Tests 24-32)
+- **Test Coverage**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 24-32)
 - **Dependencies**: Dashboard Layout & Navigation (Subgroup 4) must be complete
 - **Related Enhancements**: security_enhancements/SECURE_DATABASE_REPLACEMENT.md, SQL_INJECTION_FIXES.md
 - **Estimated Context Usage**: 60-70%
@@ -33,7 +33,7 @@
 
 ## 2. Test Coverage Requirements
 
-Based on Phase1_Foundation_Tests.md, this subgroup must implement:
+Based on docs/04-testing/Phase1_Foundation_Tests.md, this subgroup must implement:
 
 ### Database Schema Tests
 - User model with email uniqueness constraints

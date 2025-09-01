@@ -6,7 +6,7 @@
 - **MCP Initialization**: Load project foundation context, no previous memories exist
 - **MCP Storage**: Store project architecture, tech stack decisions, development patterns
 - **Compact After Completion**: MANDATORY - Must compact before proceeding to Subgroup 2
-- **Test Coverage**: Phase1_Foundation_Tests.md (Tests 1-6)
+- **Test Coverage**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 1-6)
 - **Dependencies**: None - This is the first subgroup
 - **Related Enhancements**: None
 - **Estimated Context Usage**: 30-40% (includes project setup)
@@ -73,7 +73,7 @@ The Infrastructure Foundation subgroup establishes the core platform infrastruct
 
 ## Test Coverage Requirements
 
-Based on Phase1_Foundation_Tests.md, this subgroup must implement tests that cover:
+Based on docs/04-testing/Phase1_Foundation_Tests.md, this subgroup must implement tests that cover:
 
 ### Database Schema Tests (`__tests__/database/models.test.ts`)
 - User model with email uniqueness constraints

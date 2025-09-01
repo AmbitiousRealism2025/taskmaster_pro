@@ -3,7 +3,7 @@
 ## ⚠️ Implementation Notes
 - **Subgroup Number**: 3 (Design System & Core UI)
 - **Compact After Completion**: MANDATORY - Must compact before proceeding to Subgroup 4
-- **Test Coverage**: Phase1_Foundation_Tests.md (Tests 12-17)
+- **Test Coverage**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 12-17)
 - **Dependencies**: Infrastructure Foundation (Subgroup 1) must be complete
 - **Related Enhancements**: None
 - **Estimated Context Usage**: 45-55%
@@ -29,7 +29,7 @@ The Design System & Core UI subgroup is responsible for establishing the visual 
 
 ## Test Coverage Requirements
 
-Based on `Phase1_Foundation_Tests.md`, the following tests must pass:
+Based on `docs/04-testing/Phase1_Foundation_Tests.md`, the following tests must pass:
 
 ### Core UI Component Tests (4 tests)
 - **Card Component** (`__tests__/components/ui/card.test.ts`)

@@ -3,7 +3,7 @@
 ## ⚠️ Implementation Notes
 - **Subgroup Number**: 6 (Task Management Core)
 - **Compact After Completion**: MANDATORY - Must compact before proceeding to Subgroup 7
-- **Test Coverage**: Phase2_Feature_Tests.md (Tests 1-12)
+- **Test Coverage**: docs/04-testing/Phase2_Feature_Tests.md (Tests 1-12)
 - **Dependencies**: Phase 1 complete (All 5 subgroups must be finished)
 - **Related Enhancements**: None
 - **Estimated Context Usage**: 55-65%
@@ -30,7 +30,7 @@ The Task Management Core subgroup implements the central task management functio
 
 ## Test Coverage Requirements
 
-Based on `Phase2_Feature_Tests.md`, the following tests must pass:
+Based on `docs/04-testing/Phase2_Feature_Tests.md`, the following tests must pass:
 
 ### Task CRUD Tests (4 tests)
 - **Task Creation** (`__tests__/modules/tasks/task-crud.test.ts`)

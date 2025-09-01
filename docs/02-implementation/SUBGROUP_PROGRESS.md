@@ -13,7 +13,7 @@
 ### ✅ Subgroup 1: Infrastructure Foundation
 - **Status**: Complete
 - **Context Doc**: `context_docs/phase1/01_infrastructure_foundation.md`
-- **Tests**: Phase1_Foundation_Tests.md (Tests 1-6) - Auth: 7/7 ✅, DB: 6/6 failing as expected ✅
+- **Tests**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 1-6) - Auth: 7/7 ✅, DB: 6/6 failing as expected ✅
 - **Planned Start**: 2025-08-31
 - **Completed**: 2025-08-31
 - **COMPACTION REQUIRED**: Yes
@@ -22,7 +22,7 @@
 ### ✅ Subgroup 2: Authentication & Security
 - **Status**: Complete
 - **Context Doc**: `context_docs/phase1/02_authentication_security.md`
-- **Tests**: Phase1_Foundation_Tests.md (Tests 7-11) - Auth: 7/7 ✅
+- **Tests**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 7-11) - Auth: 7/7 ✅
 - **Enhanced Docs**: SECURE_AUTH_REPLACEMENT.md, SECURITY_AUDIT_REPORT.md
 - **Planned Start**: 2025-08-31
 - **Completed**: 2025-08-31
@@ -32,7 +32,7 @@
 ### ✅ Subgroup 3: Design System & Core UI
 - **Status**: Complete
 - **Context Doc**: `context_docs/phase1/03_design_system_core_ui.md`
-- **Tests**: Phase1_Foundation_Tests.md (Tests 12-17) - Design System: 8/8 ✅
+- **Tests**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 12-17) - Design System: 8/8 ✅
 - **Planned Start**: 2025-08-31
 - **Completed**: 2025-08-31
 - **COMPACTION REQUIRED**: Yes
@@ -41,7 +41,7 @@
 ### ✅ Subgroup 4: Dashboard Layout & Navigation
 - **Status**: Complete
 - **Context Doc**: `context_docs/phase1/04_dashboard_layout_navigation.md`
-- **Tests**: Phase1_Foundation_Tests.md (Tests 18-23) - Dashboard Layout: 6/6 ✅
+- **Tests**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 18-23) - Dashboard Layout: 6/6 ✅
 - **Planned Start**: 2025-08-31
 - **Completed**: 2025-08-31
 - **COMPACTION REQUIRED**: Yes
@@ -50,7 +50,7 @@
 ### ✅ Subgroup 5: Core API & Data Management
 - **Status**: Complete
 - **Context Doc**: `context_docs/phase1/05_core_api_data_management.md`
-- **Tests**: Phase1_Foundation_Tests.md (Tests 24-32) - Database Models: 4/4 ✅
+- **Tests**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 24-32) - Database Models: 4/4 ✅
 - **Enhanced Docs**: SECURE_DATABASE_REPLACEMENT.md, SQL_INJECTION_FIXES.md
 - **Planned Start**: 2025-08-31
 - **Completed**: 2025-08-31
@@ -152,7 +152,7 @@
 ### ✅ Subgroup 6: Task Management Core - ENHANCED
 - **Status**: Complete ✅
 - **Context Doc**: `06_task_management_core.md`
-- **Tests**: Phase2_Feature_Tests.md (Tests 1-12)
+- **Tests**: docs/04-testing/Phase2_Feature_Tests.md (Tests 1-12)
 - **Prerequisites**: Phase 1.5 Complete (Supabase Integration)
 - **Planned Start**: 2025-09-01
 - **Completed**: 2025-09-01
@@ -175,7 +175,7 @@
 ### ✅ Subgroup 7: Content & Focus Systems - ENHANCED
 - **Status**: Complete
 - **Context Doc**: `context_docs/phase2/07_content_focus_systems.md`
-- **Tests**: Phase2_Feature_Tests.md (Tests 13-22) - Implementation coverage: 95%+
+- **Tests**: docs/04-testing/Phase2_Feature_Tests.md (Tests 13-22) - Implementation coverage: 95%+
 - **Enhanced**: Dashboard completion fixes + Supabase capabilities integrated
 - **Prerequisites**: Subgroup 6 Complete ✅
 - **Planned Start**: 2025-09-01
@@ -198,7 +198,7 @@
 ### ✅ Subgroup 8: Real-time & State Orchestration - COMPLETE
 - **Status**: Complete ✅
 - **Context Doc**: `context_docs/phase2/08_realtime_state_orchestration.md`
-- **Tests**: Phase2_Feature_Tests.md (Tests 23-29) - Implementation coverage: 98%+
+- **Tests**: docs/04-testing/Phase2_Feature_Tests.md (Tests 23-29) - Implementation coverage: 98%+
 - **Prerequisites**: Subgroups 6-7 Complete ✅
 - **Planned Start**: After Subgroups 6-7
 - **Completed**: 2025-09-01

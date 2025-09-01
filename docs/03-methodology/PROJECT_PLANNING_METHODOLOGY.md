@@ -109,8 +109,8 @@ Phase Planning → Test Creation → Implementation → Validation
 **Purpose**: Define success criteria before coding
 
 **Test Distribution**:
-- `Phase1_Foundation_Tests.md` - 32 tests
-- `Phase2_Feature_Tests.md` - 29 tests  
+- `docs/04-testing/Phase1_Foundation_Tests.md` - 32 tests
+- `docs/04-testing/Phase2_Feature_Tests.md` - 29 tests  
 - `Phase3_Production_Tests.md` - 63 tests (later enhanced to 104)
 - **Total**: 165 failing tests
 
@@ -722,6 +722,89 @@ Each level provides context for the next
 
 ---
 
+## Documentation Organization Standards
+
+### Philosophy: Professional Structure for Teachable Systems
+
+As complex software projects grow, documentation organization becomes critical for:
+- **Developer Onboarding**: Clear learning path from basic concepts to advanced implementation
+- **Maintenance Efficiency**: Related documents grouped logically for easy updates
+- **Professional Credibility**: Enterprise-grade organization demonstrating systematic approach
+- **Knowledge Transfer**: Structure supports methodology teaching and systematization
+- **Scalable Growth**: Organization scales cleanly as projects expand in complexity
+
+### The Numbered Directory System
+
+TaskMaster Pro implements a **numbered documentation hierarchy** that creates logical flow:
+
+```
+docs/
+├── 01-getting-started/     # Entry point for new developers
+├── 02-implementation/      # Active workflow guides used during development
+├── 03-methodology/         # Development philosophy and systematic approaches
+├── 04-testing/            # All test specifications and testing documentation
+├── 05-technical-setup/    # Configuration guides and tool integration
+├── 06-sessions/           # Progress tracking and session-specific documentation
+├── 07-phases/             # Phase-specific artifacts, reviews, and migrations
+└── 08-misc/               # Miscellaneous documents that don't fit other categories
+```
+
+### Organization Benefits for Teaching and Systematization
+
+This structure directly supports the methodology's goal of being teachable:
+
+1. **Clear Learning Path**: Numbers guide progression from basic concepts to advanced implementation
+2. **Related Concepts Grouped**: Similar document types clustered for easier comprehension
+3. **Professional Demonstration**: Shows enterprise-grade practices in action
+4. **Scalable System**: Works for projects of any size with consistent principles
+5. **Easy Navigation**: Developers can quickly locate relevant information
+6. **Maintenance Clarity**: Updates and additions follow logical placement rules
+
+### Documentation Placement Guidelines
+
+**New methodology documents**: `03-methodology/[METHODOLOGY]_[PURPOSE].md`
+**Session summaries**: `06-sessions/SESSION_SUMMARY_[identifier].md`
+**Phase reviews**: `07-phases/PHASE_[X]_REVIEW_[description].md`
+**Technical guides**: `05-technical-setup/[TOOL]_[PURPOSE]_GUIDE.md`
+**Implementation workflows**: `02-implementation/[WORKFLOW]_[PURPOSE].md`
+
+### Integration with Development Workflow
+
+The organizational structure enhances the development workflow by:
+- **Reducing Search Time**: Developers know exactly where to find information
+- **Supporting Compaction**: Clean organization aids in context preservation across sessions
+- **Enabling Documentation**: Clear structure makes it easier to add new documentation
+- **Professional Presentation**: Organization supports methodology demonstration and teaching
+
+### Template Creation for Consistency
+
+To maintain organizational standards, create templates for:
+- **Session Summary Template**: Standardized format for progress documentation
+- **Phase Review Template**: Consistent structure for multi-agent assessments
+- **Technical Setup Template**: Standardized configuration guide format
+- **Methodology Addition Template**: Framework for extending the methodology
+
+### Future-Proofing Organizational Principles
+
+The numbered directory system ensures:
+- **Logical Extension**: New categories can be added with appropriate numbers
+- **Consistent Navigation**: Users always know the expected progression
+- **Professional Standards**: Maintains enterprise-grade appearance as project grows
+- **Teaching Support**: Structure directly supports methodology instruction and replication
+
+### Quality Gates for Documentation Organization
+
+Before implementing this organizational structure:
+- [ ] All existing documents identified and categorized appropriately
+- [ ] Cross-references updated to reflect new paths
+- [ ] Navigation documents (DOCUMENTATION_MAP.md) updated with new structure
+- [ ] Templates created for future document additions
+- [ ] Integration verified with existing development workflow
+
+**Outcome**: Professional, scalable documentation organization that supports both current development and future methodology teaching requirements.
+
+---
+
 ## The Compaction Workflow Innovation
 
 ### The Problem It Solves
@@ -870,8 +953,8 @@ Each creates:
    - `CLAUDE.md`
 
 2. **Test Documents**
-   - `Phase1_[Category]_Tests.md`
-   - `Phase2_[Category]_Tests.md`
+   - `docs/04-testing/Phase1_[Category]_Tests.md`
+   - `docs/04-testing/Phase2_[Category]_Tests.md`
    - `Phase3_[Category]_Tests.md`
 
 3. **Implementation Guides**

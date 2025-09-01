@@ -3,7 +3,7 @@
 ## ⚠️ Implementation Notes
 - **Subgroup Number**: 2 (Authentication & Security)
 - **Compact After Completion**: MANDATORY - Must compact before proceeding to Subgroup 3
-- **Test Coverage**: Phase1_Foundation_Tests.md (Tests 7-11)
+- **Test Coverage**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 7-11)
 - **Dependencies**: Infrastructure Foundation (Subgroup 1) must be complete
 - **Related Enhancements**: security_enhancements/SECURE_AUTH_REPLACEMENT.md, SECURITY_AUDIT_REPORT.md
 - **Estimated Context Usage**: 40-50%
@@ -53,7 +53,7 @@ The Authentication & Security subgroup implements comprehensive authentication f
 
 ## Test Coverage Requirements
 
-Based on Phase1_Foundation_Tests.md, this subgroup must implement tests that cover:
+Based on docs/04-testing/Phase1_Foundation_Tests.md, this subgroup must implement tests that cover:
 
 ### Authentication Flow Tests (`__tests__/auth/auth-flow.test.ts`)
 - Email/password authentication with validation

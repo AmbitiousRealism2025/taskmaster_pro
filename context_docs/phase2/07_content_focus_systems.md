@@ -6,7 +6,7 @@
 - **MCP Context Loading**: Load Subgroup 6 completion memories and task management patterns
 - **MCP Storage**: Store rich text patterns, focus timer architecture, Web Worker implementations
 - **Compact After Completion**: MANDATORY - Must compact before proceeding to Subgroup 8
-- **Test Coverage**: Phase2_Feature_Tests.md (Tests 13-22)
+- **Test Coverage**: docs/04-testing/Phase2_Feature_Tests.md (Tests 13-22)
 - **Dependencies**: Task Management Core (Subgroup 6) must be complete
 - **Related Enhancements**: Includes dashboard fixes from Phase 1
 - **Estimated Context Usage**: 60-70%
@@ -53,7 +53,7 @@ The Content & Focus Systems subgroup implements the core content creation and pr
 
 ## Test Coverage Requirements
 
-Based on `Phase2_Feature_Tests.md`, the following tests must pass:
+Based on `docs/04-testing/Phase2_Feature_Tests.md`, the following tests must pass:
 
 ### Notes Editor Tests (5 tests)
 - **Rich Text Editing** (`__tests__/modules/notes/notes-editor.test.ts`)

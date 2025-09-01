@@ -39,7 +39,7 @@ echo "Starting Subgroup X: [Name] - $(date)" >> SESSION_LOG.md
 LOAD ONLY THESE DOCUMENTS:
 1. Primary: context_docs/phaseX/0Y_subgroup_name.md
 2. Tests: PhaseX_Tests.md (specific section only)
-3. Enhancements: Only if listed in IMPLEMENTATION_GUIDE.md
+3. Enhancements: Only if listed in docs/02-implementation/IMPLEMENTATION_GUIDE.md
 4. MCP Framework: Use mcp__context7__resolve-library-id() for framework questions
 5. DO NOT LOAD: Future phases, unrelated subgroups, UI mockups
 ```
@@ -231,7 +231,7 @@ grep -r "console.log" src/ --exclude-dir=node_modules
 
 ### Step 2: Documentation Update
 
-Update `SUBGROUP_PROGRESS.md`:
+Update `docs/02-implementation/SUBGROUP_PROGRESS.md`:
 ```markdown
 ## Phase X: [Name]
 - [x] Subgroup Y: [Name] ✅ COMPLETE (Date)
@@ -462,7 +462,7 @@ Each subgroup must pass these gates before compaction:
 **Solution**: Unload unnecessary docs, focus on current task only
 
 ### Issue: Unsure what's next
-**Solution**: Check SUBGROUP_PROGRESS.md and IMPLEMENTATION_GUIDE.md
+**Solution**: Check docs/02-implementation/SUBGROUP_PROGRESS.md and docs/02-implementation/IMPLEMENTATION_GUIDE.md
 
 ### Issue: Integration conflicts
 **Solution**: Review previous subgroup's exports and public API
@@ -475,7 +475,7 @@ When returning after a break:
 
 1. **Check Progress**
    ```bash
-   cat SUBGROUP_PROGRESS.md
+   cat docs/02-implementation/SUBGROUP_PROGRESS.md
    git log --oneline -10
    ```
 

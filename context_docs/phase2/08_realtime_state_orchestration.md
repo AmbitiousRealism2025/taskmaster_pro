@@ -3,7 +3,7 @@
 ## ⚠️ Implementation Notes
 - **Subgroup Number**: 8 (Real-time & State Orchestration)
 - **Compact After Completion**: MANDATORY - Must compact before proceeding to Subgroup 9
-- **Test Coverage**: Phase2_Feature_Tests.md (Tests 23-29)
+- **Test Coverage**: docs/04-testing/Phase2_Feature_Tests.md (Tests 23-29)
 - **Dependencies**: Content & Focus Systems (Subgroup 7) must be complete
 - **Related Enhancements**: None
 - **Estimated Context Usage**: 65-75%
@@ -32,7 +32,7 @@ The Real-time & State Orchestration subgroup implements the high-performance, re
 
 ## Test Coverage Requirements
 
-Based on `Phase2_Feature_Tests.md`, the following tests must pass:
+Based on `docs/04-testing/Phase2_Feature_Tests.md`, the following tests must pass:
 
 ### Real-time Updates Tests (6 tests)
 - **WebSocket Connection** (`__tests__/integration/real-time-updates.test.ts`)

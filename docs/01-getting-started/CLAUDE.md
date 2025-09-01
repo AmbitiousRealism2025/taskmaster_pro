@@ -32,7 +32,7 @@ TaskMaster Pro is a full-stack productivity suite built with Test-Driven Develop
 1. **Initialize MCP Context**: Load previous memories and architectural context
 2. Complete one subgroup fully (implementation + tests)
 3. **Store MCP Context**: Update knowledge graph and architectural decisions
-4. Update SUBGROUP_PROGRESS.md
+4. Update docs/02-implementation/SUBGROUP_PROGRESS.md
 5. Create git commit
 6. **COMPACT SESSION** before moving to next subgroup
 7. Never attempt multiple subgroups without compacting
@@ -157,19 +157,47 @@ npm run test:components
 npm run test -- auth.test.ts
 ```
 
-## Project File Organization
+## ⚠️ CRITICAL: Documentation Organization System
 
+**NEW STRUCTURE** (Implemented 2025-09-01): All documentation has been reorganized into a professional numbered directory system. **ALWAYS use these paths when referencing documentation.**
+
+### **Numbered Directory Structure** (`docs/`)
+```
+docs/
+├── 01-getting-started/     # Entry point - start here for project orientation
+├── 02-implementation/      # Active development workflow guides  
+├── 03-methodology/         # Development philosophy and approaches
+├── 04-testing/            # All test specifications and coverage
+├── 05-technical-setup/    # Configuration guides and tool integration
+├── 06-sessions/           # Progress tracking and session summaries
+├── 07-phases/             # Phase-specific reviews and migrations
+└── 08-misc/               # Miscellaneous documents
+```
+
+### **Key File Locations** (Updated Paths)
 **Implementation Guides** (Start Here):
-- `IMPLEMENTATION_GUIDE.md` - Master plan with compaction workflow
-- `IMPLEMENTATION_WORKFLOW.md` - Step-by-step for each subgroup
-- `SUBGROUP_PROGRESS.md` - Track progress and compaction points
-- `DOCUMENTATION_MAP.md` - Document relationships
-- `PRE_IMPLEMENTATION_CHECKLIST.md` - Readiness verification
+- `docs/02-implementation/IMPLEMENTATION_GUIDE.md` - Master plan with compaction workflow
+- `docs/02-implementation/IMPLEMENTATION_WORKFLOW.md` - Step-by-step for each subgroup
+- `docs/02-implementation/SUBGROUP_PROGRESS.md` - Track progress and compaction points
+- `docs/01-getting-started/DOCUMENTATION_MAP.md` - Document relationships and navigation
+- `docs/01-getting-started/PRE_IMPLEMENTATION_CHECKLIST.md` - Readiness verification
 
 **Test Files** (165 Total Tests):
-- `Phase1_Foundation_Tests.md` - 32 tests for subgroups 1-5
-- `Phase2_Feature_Tests.md` - 29 tests for subgroups 6-8
-- `Phase3_Production_Tests_ENHANCED.md` - 104 tests for subgroups 9-12
+- `docs/04-testing/Phase1_Foundation_Tests.md` - 32 tests for subgroups 1-5
+- `docs/04-testing/Phase2_Feature_Tests.md` - 29 tests for subgroups 6-8
+- `docs/04-testing/Phase3_Production_Tests_ENHANCED.md` - 104 tests for subgroups 9-12
+
+**Methodology & Philosophy**:
+- `docs/03-methodology/PROJECT_PLANNING_METHODOLOGY.md` - Complete development methodology
+- `docs/03-methodology/PHASE_X.5_METHODOLOGY.md` - Quality assurance methodology
+- `docs/03-methodology/BRANCHING_STRATEGY.md` - Git workflow and safety patterns
+
+**Technical Setup**:
+- `docs/05-technical-setup/MCP_SERVER_SETUP.md` - MCP server configuration
+- `docs/05-technical-setup/SUPABASE_INTEGRATION_PLAN.md` - Database setup
+
+### **Navigation Principle**
+Follow the numbered progression: **01** (orientation) → **02** (active work) → **03** (deep understanding) → **04** (quality) → **05** (tools) → **06** (progress) → **07** (milestones) → **08** (misc)
 
 **Context Documentation**:
 - `context_docs/phase1/` - 5 foundation subgroup guides
@@ -223,7 +251,7 @@ src/
 1. **Load Documentation**: Only load the specific subgroup context doc + tests
 2. **Implement Subgroup**: Complete all functionality for that subgroup
 3. **Run Tests**: Ensure 100% of subgroup tests pass
-4. **Update Progress**: Mark complete in SUBGROUP_PROGRESS.md
+4. **Update Progress**: Mark complete in docs/02-implementation/SUBGROUP_PROGRESS.md
 5. **Git Commit**: Create descriptive commit for the subgroup
 6. **COMPACT**: Use /compact command before starting next subgroup
 
@@ -272,14 +300,14 @@ src/
    mcp__memory__add_observations() // Implementation details
    ```
 2. **Architectural Summary**: `mcp__serena__write_memory("subgroup_X_complete")`
-3. **Progress Documentation**: Update SUBGROUP_PROGRESS.md
+3. **Progress Documentation**: Update docs/02-implementation/SUBGROUP_PROGRESS.md
 4. **Git Commit**: Create descriptive commit with MCP context preserved
 
 ### 🚀 SESSION STARTUP PROCEDURE (Run /prime command first)
 
 When starting a new Claude session in the terminal, **always run the /prime command** which will:
 1. Check git status and list all project files
-2. Read key documentation files (README.md, CLAUDE.md, etc.)
+2. Read key documentation files (docs/01-getting-started/README.md, docs/01-getting-started/CLAUDE.md, etc.)
 3. Verify and report status of all MCP servers
 4. Provide a comprehensive project understanding summary
 
@@ -404,8 +432,8 @@ npx prisma generate
 - **Accessibility first** - every component must meet WCAG standards
 
 ### When Starting Implementation:
-1. First read `IMPLEMENTATION_GUIDE.md` for the master plan
-2. Check `SUBGROUP_PROGRESS.md` to see what's next
+1. First read `docs/02-implementation/IMPLEMENTATION_GUIDE.md` for the master plan
+2. Check `docs/02-implementation/SUBGROUP_PROGRESS.md` to see what's next
 3. Follow `IMPLEMENTATION_WORKFLOW.md` for step-by-step process
-4. Reference `DOCUMENTATION_MAP.md` if unsure which docs to use
+4. Reference `docs/01-getting-started/DOCUMENTATION_MAP.md` if unsure which docs to use
 5. Always compact after completing each subgroup

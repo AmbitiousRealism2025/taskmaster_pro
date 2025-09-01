@@ -3,7 +3,7 @@
 ## ⚠️ Implementation Notes
 - **Subgroup Number**: 4 (Dashboard Layout & Navigation)
 - **Compact After Completion**: MANDATORY - Must compact before proceeding to Subgroup 5
-- **Test Coverage**: Phase1_Foundation_Tests.md (Tests 18-23)
+- **Test Coverage**: docs/04-testing/Phase1_Foundation_Tests.md (Tests 18-23)
 - **Dependencies**: Design System & Core UI (Subgroup 3) must be complete
 - **Related Enhancements**: None
 - **Estimated Context Usage**: 50-60%
@@ -31,7 +31,7 @@ The Dashboard Layout & Navigation subgroup is responsible for creating the prima
 
 ## Test Coverage Requirements
 
-Based on `Phase1_Foundation_Tests.md`, the following tests must pass:
+Based on `docs/04-testing/Phase1_Foundation_Tests.md`, the following tests must pass:
 
 ### Layout Component Tests (2 core tests)
 - **Top Navigation** (`__tests__/components/layout/navigation.test.ts`)
