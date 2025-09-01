@@ -1,5 +1,8 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
+// 
+// Compatible with Supabase PostgreSQL
+// Real-time subscriptions available via Supabase client
 
 generator client {
   provider = "prisma-client-js"

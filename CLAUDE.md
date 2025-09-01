@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-TaskMaster Pro is a full-stack productivity suite built with Test-Driven Development (TDD) methodology. The project is organized into three development phases with 12 specialized subgroups for parallel development.
+TaskMaster Pro is a full-stack productivity suite built with Test-Driven Development (TDD) methodology. The project is organized into three development phases with 12 specialized subgroups plus Phase X.5 review-and-fix sessions, totaling 15 development sessions.
 
 ## Architecture & Tech Stack
 
@@ -25,18 +25,27 @@ TaskMaster Pro is a full-stack productivity suite built with Test-Driven Develop
 4. **COMPACT SESSION** before moving to next subgroup
 5. Never attempt multiple subgroups without compacting
 
-**Total Compaction Points**: 12 (one after each subgroup)
+**Total Compaction Points**: 15 (12 subgroups + 3 Phase X.5 reviews)
 **Context Window Limit**: Never exceed 75% usage before compacting
+
+### Phase X.5 Review-and-Fix Methodology
+**CRITICAL DISCOVERY**: After completing all subgroups in each phase, conduct multi-agent collaborative review to identify critical blockers before advancing:
+- **Phase 1.5**: Review after subgroups 1-5 → Fix critical issues → Approve Phase 2
+- **Phase 2.5**: Review after subgroups 6-8 → Fix critical issues → Approve Phase 3  
+- **Phase 3.5**: Review after subgroups 9-12 → Fix critical issues → Production ready
+
+**Phase X.5 Process**: Multi-agent review → Critical issue classification → Focused fixes → Verification → Phase sign-off
 
 ### TDD Methodology
 1. **Tests First**: All features must have failing tests written before implementation
 2. **Phase Gates**: 100% test pass rate required before advancing to next phase
 3. **Test Coverage**: 165 total tests across all phases
 
-### Phase Structure
-- **Phase 1 (Weeks 1-4)**: Foundation & Infrastructure - 5 subgroups
-- **Phase 2 (Weeks 5-8)**: Core Features - 3 subgroups  
-- **Phase 3 (Weeks 9-12)**: Production - 4 subgroups
+### Phase Structure  
+- **Phase 1**: Foundation & Infrastructure - 5 subgroups + Phase 1.5 review
+- **Phase 2**: Core Features - 3 subgroups + Phase 2.5 review
+- **Phase 3**: Production - 4 subgroups + Phase 3.5 review
+- **Total**: 15 sessions (12 subgroups + 3 Phase X.5 reviews)
 
 Each subgroup has:
 - Coding context document in `context_docs/phase[1-3]/`
@@ -284,14 +293,15 @@ npx prisma generate
 ## Important Notes
 
 ### ⚠️ Critical Rules:
-- **COMPACTION IS MANDATORY** - Never skip the 12 compaction points
+- **COMPACTION IS MANDATORY** - Never skip the 15 compaction points (12 subgroups + 3 Phase X.5)
 - **One subgroup at a time** - Never attempt multiple subgroups in one session
+- **Phase X.5 Reviews Required** - Must conduct multi-agent review after each phase completion
 - **Context limit is 75%** - Compact immediately if approaching this limit
 - **Tests must pass 100%** - No moving forward with failing tests
 
 ### Development Guidelines:
 - This is a **TDD project** - tests are already written, implement to pass them
-- Follow the **12-subgroup plan** strictly - no jumping ahead
+- Follow the **15-session plan** strictly - 12 subgroups + 3 Phase X.5 reviews
 - Maintain **design system consistency** across all components
 - **Agent integration** is core to the product - prioritize AI features
 - **Accessibility first** - every component must meet WCAG standards

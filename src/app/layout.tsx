@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { AuthProvider } from '@/components/auth/AuthProvider'
 import { ThemeProvider } from '@/components/theme/theme-provider'
+import { QueryProvider } from '@/components/providers/query-client-provider'
 import { inter } from '@/lib/fonts'
 
 export const metadata: Metadata = {
@@ -17,14 +18,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <body className="font-sans antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <AuthProvider>{children}</AuthProvider>
-        </ThemeProvider>
+        <QueryProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <AuthProvider>{children}</AuthProvider>
+          </ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   )

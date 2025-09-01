@@ -1,8 +1,15 @@
 import { withAuth } from 'next-auth/middleware'
 import { NextResponse } from 'next/server'
+import { applyRateLimit } from '@/lib/middleware/rate-limit-middleware'
 
 export default withAuth(
-  function middleware(req) {
+  async function middleware(req) {
+    // Apply rate limiting first
+    const rateLimitResponse = await applyRateLimit(req)
+    if (rateLimitResponse && rateLimitResponse.status === 429) {
+      return rateLimitResponse
+    }
+
     const token = req.nextauth.token
     const { pathname } = req.nextUrl
 
@@ -44,9 +51,8 @@ export default withAuth(
           return true
         }
 
-        // TEMPORARY: Allow all routes for UI testing
-        return true
-        // TODO: Restore after UI testing: return !!token
+        // Require authentication for protected routes
+        return !!token
       }
     }
   }

@@ -168,6 +168,96 @@ FOR EACH OF THE 12 SUBGROUPS:
 - **Dependencies**: Subgroups 9-11 complete
 - **COMPACT AFTER COMPLETION**
 
+## Phase X.5 Review-and-Fix Methodology
+
+### ⚠️ NEW CRITICAL DISCOVERY: Post-Phase Review Pattern
+
+Based on actual implementation experience, we've discovered that after completing each major phase (all subgroups), a structured review and fix process is essential. This becomes **Phase X.5**.
+
+### Phase Completion Review Process
+
+```
+AFTER COMPLETING ALL SUBGROUPS IN A PHASE:
+┌─────────────────────────────────────┐
+│ 1. COMPREHENSIVE CODE REVIEW        │
+│    - Multi-agent collaborative      │
+│    - All specialists (4-6 agents)   │
+│    - Document findings and scores   │
+└─────────────────────────────────────┘
+                ↓
+┌─────────────────────────────────────┐
+│ 2. IDENTIFY CRITICAL BLOCKERS       │
+│    - Issues preventing next phase   │
+│    - Integration problems           │
+│    - Missing core functionality     │
+└─────────────────────────────────────┘
+                ↓
+┌─────────────────────────────────────┐
+│ 3. CREATE PHASE X.5 PLAN            │
+│    - Document all required fixes    │
+│    - Prioritize by severity         │
+│    - Create implementation roadmap  │
+└─────────────────────────────────────┘
+                ↓
+┌─────────────────────────────────────┐
+│ 4. IMPLEMENT PHASE X.5 FIXES        │
+│    - Address all blocking issues    │
+│    - Verify integration             │
+│    - Re-test affected areas         │
+└─────────────────────────────────────┘
+                ↓
+┌─────────────────────────────────────┐
+│ 5. FINAL VERIFICATION               │
+│    - All blockers resolved          │
+│    - Phase marked production-ready  │
+│    - Next phase approved for start  │
+└─────────────────────────────────────┘
+```
+
+### Examples of Phase X.5 Issues
+
+**Phase 1.5 (Actual Experience)**:
+- Missing QueryClient Provider (Critical Blocker)
+- Mock implementations not replaced with real APIs
+- Authentication middleware temporarily disabled
+- Rate limiting not fully implemented
+
+**Potential Phase 2.5 Issues**:
+- Real-time updates not working properly
+- Task management UI/UX problems
+- Performance issues with large datasets
+- Integration gaps between major features
+
+**Potential Phase 3.5 Issues**:
+- PWA installation problems
+- Offline sync conflicts
+- Production deployment configuration
+- Security hardening gaps
+
+### Phase X.5 Benefits
+
+1. **Quality Assurance**: Catch integration issues before they compound
+2. **Risk Mitigation**: Address problems when context is fresh
+3. **Clean Transitions**: Each phase truly ready for the next
+4. **Technical Debt Prevention**: Fix issues immediately, not later
+5. **Confidence Building**: Know the foundation is solid
+
+### Phase X.5 Documentation
+
+Each Phase X.5 should create:
+- `PHASE_X_5_REVIEW_FINDINGS.md` - Issues discovered
+- `PHASE_X_5_IMPLEMENTATION_PLAN.md` - Fix roadmap  
+- `PHASE_X_5_COMPLETION_REPORT.md` - Final verification
+
+### Integration with Main Workflow
+
+The 12-subgroup cycle becomes:
+1. **Phase 1**: Subgroups 1-5 → Phase 1.5 Review & Fix
+2. **Phase 2**: Subgroups 6-8 → Phase 2.5 Review & Fix  
+3. **Phase 3**: Subgroups 9-12 → Phase 3.5 Review & Fix
+
+**Total Sessions**: 12 subgroups + 3 phase reviews = **15 sessions**
+
 ## Context Window Management Rules
 
 ### Green Zone (0-40% context usage)

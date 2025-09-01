@@ -443,6 +443,127 @@ When returning after a break:
 
 ---
 
+## Phase X.5 Review-and-Fix Workflow
+
+### When to Execute Phase X.5
+
+After completing ALL subgroups in a phase:
+- Phase 1: After Subgroups 1-5 complete
+- Phase 2: After Subgroups 6-8 complete  
+- Phase 3: After Subgroups 9-12 complete
+
+### Phase X.5 Implementation Steps
+
+#### Step 1: Multi-Agent Code Review
+```markdown
+REVIEW PROCESS:
+1. Start fresh session (after final subgroup compaction)
+2. Load comprehensive project state
+3. Execute multi-agent collaborative review:
+   - Backend Architect
+   - Frontend Architect
+   - Security Specialist
+   - Code Quality Auditor
+   - Any other relevant specialists
+4. Document all findings in PHASE_X_REVIEW_REPORT.md
+```
+
+#### Step 2: Critical Issues Identification
+```markdown
+CATEGORIZE FINDINGS:
+- P0 Critical: Blocks next phase (MUST fix)
+- P1 High: Significant issues (SHOULD fix)
+- P2 Medium: Improvements (NICE to fix)
+- P3 Low: Minor optimizations (CAN defer)
+
+FOCUS: Only address P0 and critical P1 issues in Phase X.5
+```
+
+#### Step 3: Create Phase X.5 Plan
+```markdown
+CREATE DOCUMENTS:
+- PHASE_X_5_REVIEW_FINDINGS.md (Issues discovered)
+- PHASE_X_5_IMPLEMENTATION_PLAN.md (Fix roadmap)
+
+PLAN STRUCTURE:
+1. Executive Summary
+2. Critical Blockers (P0)
+3. High Priority Issues (P1)
+4. Implementation Timeline
+5. Success Criteria
+```
+
+#### Step 4: Implement Fixes
+```bash
+# Create Phase X.5 branch
+git checkout -b phase-X.5-review-fixes
+
+# For each critical issue:
+# 1. Create focused fix
+# 2. Test thoroughly
+# 3. Verify integration
+# 4. Document resolution
+
+# Commit each fix
+git commit -m "fix(phase-X.5): [specific issue resolved]"
+```
+
+#### Step 5: Verification & Sign-off
+```markdown
+FINAL VERIFICATION:
+1. All P0 issues resolved
+2. Critical P1 issues addressed
+3. Integration tests passing
+4. No new critical issues introduced
+5. Phase marked production-ready
+
+CREATE: PHASE_X_5_COMPLETION_REPORT.md
+UPDATE: Main project status documents
+```
+
+#### Step 6: Phase X.5 Compaction
+```bash
+# Merge fixes
+git checkout dev
+git merge phase-X.5-review-fixes
+
+# Tag phase completion
+git tag -a "phase-X-complete" -m "Phase X fully complete with X.5 fixes"
+
+# Push everything
+git push origin dev --tags
+
+# COMPACT for next phase
+/compact
+```
+
+### Phase X.5 Benefits Realized
+
+**From Phase 1.5 Experience**:
+- ✅ Critical QueryClient Provider blocker resolved
+- ✅ Mock implementations replaced with production APIs
+- ✅ Authentication and security hardened
+- ✅ Performance monitoring implemented
+- ✅ Overall quality score improved from 8.09 to 8.5
+
+### Phase X.5 Documentation Standards
+
+Each Phase X.5 must create:
+- `PHASE_X_5_REVIEW_FINDINGS.md` - Detailed issues list
+- `PHASE_X_5_IMPLEMENTATION_PLAN.md` - Fix strategy
+- `PHASE_X_5_COMPLETION_REPORT.md` - Final verification
+- Updated main status documents (README, SUBGROUP_PROGRESS)
+
+### Integration with Main Project Timeline
+
+**Updated Project Timeline**:
+- Phase 1: 5 subgroups + Phase 1.5 = 6 sessions
+- Phase 2: 3 subgroups + Phase 2.5 = 4 sessions  
+- Phase 3: 4 subgroups + Phase 3.5 = 5 sessions
+- **Total: 15 sessions** (instead of original 12)
+
+---
+
 ## Success Criteria Summary
 
 A subgroup is complete when:
