@@ -112,3 +112,112 @@ export async function deleteTask(taskId: string): Promise<{ success: boolean }> 
   
   return response.json()
 }
+
+// AI Task Extraction
+export interface TaskExtractionResponse {
+  data: {
+    extractionResult: {
+      tasks: Array<{
+        title: string
+        description?: string
+        priority: string
+        dueDate?: Date
+        estimatedHours?: number
+        tags: string[]
+        confidence: number
+      }>
+      summary: string
+      confidence: number
+      processingTime: number
+    }
+    tasks?: Task[]
+    saved: boolean
+  }
+  success: boolean
+  message: string
+}
+
+export async function extractTasks(data: {
+  content: string
+  projectId?: string
+  saveToDatabase?: boolean
+}): Promise<TaskExtractionResponse> {
+  const response = await fetch('/api/tasks/extract', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.error || `Failed to extract tasks: ${response.statusText}`)
+  }
+  
+  return response.json()
+}
+
+// Batch Operations
+export interface BatchTaskResponse {
+  data: {
+    count: number
+    tasks: Task[]
+  }
+  success: boolean
+  message: string
+}
+
+export async function batchCreateTasks(data: {
+  tasks: Array<{
+    title: string
+    description?: string
+    priority?: string
+    dueDate?: string
+    estimatedMinutes?: number
+    projectId?: string
+    tags?: string[]
+    aiGenerated?: boolean
+    aiConfidence?: number
+    extractedFrom?: string
+  }>
+  projectId?: string
+}): Promise<BatchTaskResponse> {
+  const response = await fetch('/api/tasks/batch', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  
+  if (!response.ok) {
+    throw new Error(`Failed to batch create tasks: ${response.statusText}`)
+  }
+  
+  return response.json()
+}
+
+export async function batchUpdateTasks(data: {
+  taskIds: string[]
+  updates: Partial<{
+    status?: TaskStatus
+    priority?: TaskPriority
+    projectId?: string
+    tags?: string[]
+  }>
+}): Promise<BatchTaskResponse> {
+  const response = await fetch('/api/tasks/batch', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  
+  if (!response.ok) {
+    throw new Error(`Failed to batch update tasks: ${response.statusText}`)
+  }
+  
+  return response.json()
+}
