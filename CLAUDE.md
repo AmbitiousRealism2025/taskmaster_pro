@@ -42,12 +42,63 @@ TaskMaster Pro is a full-stack productivity suite built with Test-Driven Develop
 **MCP Integration**: Each compaction point MUST include knowledge graph updates
 
 ### Phase X.5 Review-and-Fix Methodology
-**CRITICAL DISCOVERY**: After completing all subgroups in each phase, conduct multi-agent collaborative review to identify critical blockers before advancing:
-- **Phase 1.5**: Review after subgroups 1-5 → Fix critical issues → Approve Phase 2
-- **Phase 2.5**: Review after subgroups 6-8 → Fix critical issues → Approve Phase 3  
-- **Phase 3.5**: Review after subgroups 9-12 → Fix critical issues → Production ready
+**CRITICAL DISCOVERY**: After completing all subgroups in each phase, conduct multi-agent collaborative review to identify critical blockers before advancing. This systematic approach ensures production readiness through quality gates.
 
-**Phase X.5 Process**: Multi-agent review → Critical issue classification → Focused fixes → Verification → Phase sign-off
+#### **Phase X.5 Structure & Organization**
+**Folder Structure**: `context_docs/phaseX/phaseX.5/`
+- **Review Report**: `PHASE_X_COMPREHENSIVE_REVIEW_REPORT.md`
+- **Overview Document**: `PHASE_X.5_OVERVIEW.md` 
+- **Subgroup Context Docs**: `X.5.1_subgroup_name.md`, `X.5.2_subgroup_name.md`, etc.
+
+#### **Phase X.5 Implementation Phases**
+- **Phase 1.5**: Review after subgroups 1-5 → Infrastructure improvements → Approve Phase 2
+- **Phase 2.5**: Review after subgroups 6-8 → Quality & production readiness → Approve Phase 3  
+- **Phase 3.5**: Review after subgroups 9-12 → Final production hardening → Production deployment
+
+#### **Phase X.5 Multi-Agent Review Process**
+1. **Collaborative Review**: Deploy 5+ specialized agents (Frontend, Backend, Design, Security, etc.)
+2. **Comprehensive Assessment**: Score each domain (0-100) with detailed findings
+3. **Critical Issue Classification**: 🔴 Production Blockers, 🟡 Quality Improvements, 🟢 Future Enhancements
+4. **Subgroup Structure Creation**: Break improvements into context-efficient subgroups (3-5 subgroups typical)
+5. **MCP Integration Strategy**: Define specialized agent usage for each improvement subgroup
+6. **Quality Transformation Plan**: Define current → target quality scores with measurable improvements
+
+#### **Phase X.5 Subgroup Characteristics**
+- **Context Efficiency**: Each subgroup designed for single-session completion
+- **Domain Focus**: Focused improvements (visual design, accessibility, security, performance, etc.)
+- **Estimated Effort**: 8-18 hours per subgroup with MCP integration
+- **Compaction Requirements**: Mandatory compaction after each X.5 subgroup
+- **Quality Gates**: Multi-agent validation before subgroup completion
+
+#### **Phase X.5 Documentation Standards**
+**Review Report Format**:
+- Executive summary with composite quality scores
+- Detailed agent reports with domain-specific findings
+- Critical issues with impact assessment and estimated effort
+- Success criteria and validation checklists
+
+**Subgroup Context Doc Format**:
+- Objectives and success metrics clearly defined
+- MCP integration strategy specified
+- Implementation approach with quality gates
+- Testing strategy and validation requirements
+- Deliverables and integration points documented
+
+**Overview Document Format**:
+- Phase X.5 mission and quality transformation goals
+- Subgroup breakdown with effort estimates
+- MCP utilization strategy across all subgroups
+- Business impact and ROI analysis
+- Success criteria and expected outcomes
+
+#### **Phase X.5 Success Metrics**
+- **Quality Score Improvement**: Minimum +5 points composite score improvement
+- **Production Readiness**: Address all 🔴 critical production blockers
+- **Enterprise Compliance**: Achieve accessibility, security, and performance standards
+- **User Experience**: Measurable improvements in usability and engagement
+- **Technical Debt**: Systematic elimination of identified technical debt
+
+**Phase X.5 Integration**: Multi-agent review → Structured improvements → Quality transformation → Phase advancement
 
 ### TDD Methodology
 1. **Tests First**: All features must have failing tests written before implementation

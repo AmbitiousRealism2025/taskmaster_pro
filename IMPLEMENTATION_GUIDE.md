@@ -24,10 +24,55 @@
 ### Total Compaction Points: 15 
 ### Expected Timeline: 15 weeks (includes Phase X.5 review-and-fix sessions)
 
+## Phase X.5 Review-and-Fix Integration
+
+### Phase X.5 Session Structure
+After each major phase completion (1, 2, 3), implement comprehensive review-and-fix sessions:
+
+**Session Pattern**: `PhaseX Complete → Multi-Agent Review → PhaseX.5 Subgroups → Phase Advancement`
+
+#### Phase X.5 Folder Organization
+```
+context_docs/
+├── phase1/
+│   └── phase1.5/           # Post-Phase 1 improvements
+│       ├── PHASE_1.5_OVERVIEW.md
+│       ├── PHASE_1_COMPREHENSIVE_REVIEW_REPORT.md
+│       ├── 1.5.1_infrastructure_enhancements.md
+│       ├── 1.5.2_security_hardening.md
+│       └── 1.5.3_performance_optimization.md
+├── phase2/
+│   └── phase2.5/           # Post-Phase 2 improvements  
+│       ├── PHASE_2.5_OVERVIEW.md
+│       ├── PHASE_2_COMPREHENSIVE_REVIEW_REPORT.md
+│       ├── 2.5.1_visual_design_brand_identity.md
+│       ├── 2.5.2_accessibility_mobile_experience.md
+│       └── 2.5.3_security_performance_production.md
+└── phase3/
+    └── phase3.5/           # Post-Phase 3 final hardening
+        ├── PHASE_3.5_OVERVIEW.md
+        ├── PHASE_3_COMPREHENSIVE_REVIEW_REPORT.md
+        ├── 3.5.1_final_security_audit.md
+        ├── 3.5.2_production_deployment.md
+        └── 3.5.3_monitoring_observability.md
+```
+
+#### Phase X.5 Quality Gates
+Each Phase X.5 serves as a quality gate ensuring production readiness:
+- **Phase 1.5**: Infrastructure foundation and development workflow optimization
+- **Phase 2.5**: User experience, accessibility compliance, and core feature polish
+- **Phase 3.5**: Production deployment readiness and enterprise compliance
+
+#### Phase X.5 Success Criteria
+- **Composite Quality Score**: Minimum +5 point improvement from multi-agent review
+- **Critical Issues**: All 🔴 production blockers resolved
+- **Enterprise Standards**: WCAG, security, performance compliance achieved
+- **Technical Debt**: Systematic elimination of identified technical debt
+
 ## Implementation Workflow with MCP Integration (MUST FOLLOW)
 
 ```
-FOR EACH OF THE 12 SUBGROUPS:
+FOR EACH OF THE 12 SUBGROUPS + PHASE X.5 SUBGROUPS:
 ┌─────────────────────────────────────┐
 │ 1. START FRESH SESSION + MCP INIT   │
 │    - After previous compaction      │
@@ -183,15 +228,91 @@ FOR EACH OF THE 12 SUBGROUPS:
 
 ## Phase X.5 Review-and-Fix Methodology
 
-### ⚠️ NEW CRITICAL DISCOVERY: Post-Phase Review Pattern
+### ⚠️ CRITICAL DISCOVERY: Post-Phase Review Pattern
 
-Based on actual implementation experience, we've discovered that after completing each major phase (all subgroups), a structured review and fix process is essential. This becomes **Phase X.5**.
+After completing each major phase (all subgroups), implement structured review and improvement sessions as **Phase X.5**. This systematic approach ensures production readiness through quality gates.
 
-### Phase Completion Review Process
+### Phase X.5 Implementation Workflow
 
 ```
 AFTER COMPLETING ALL SUBGROUPS IN A PHASE:
 ┌─────────────────────────────────────┐
+│ 1. MULTI-AGENT COLLABORATIVE REVIEW │
+│    - Deploy 5+ specialized agents    │
+│    - Frontend, Backend, Design, etc. │
+│    - Score each domain (0-100)       │
+│    - Identify critical gaps          │
+└─────────────────────────────────────┘
+                ↓
+┌─────────────────────────────────────┐
+│ 2. ISSUE CLASSIFICATION & PLANNING  │
+│    - 🔴 Production Blockers          │
+│    - 🟡 Quality Improvements         │
+│    - 🟢 Future Enhancements          │
+│    - Break into focused subgroups    │
+└─────────────────────────────────────┘
+                ↓
+┌─────────────────────────────────────┐
+│ 3. CREATE PHASE X.5 STRUCTURE       │
+│    - context_docs/phaseX/phaseX.5/   │
+│    - Review report + overview        │
+│    - X.5.1, X.5.2, X.5.3 context    │
+│    - MCP integration strategy        │
+└─────────────────────────────────────┘
+                ↓
+┌─────────────────────────────────────┐
+│ 4. IMPLEMENT IMPROVEMENT SUBGROUPS   │
+│    - Context-efficient subgroups     │
+│    - 8-18 hours effort each          │
+│    - MCP agent specialization        │
+│    - Compaction after each           │
+└─────────────────────────────────────┘
+                ↓
+┌─────────────────────────────────────┐
+│ 5. QUALITY TRANSFORMATION VALIDATION │
+│    - Re-run multi-agent review       │
+│    - Verify quality score targets    │
+│    - Validate production readiness   │
+│    - Approve next phase advancement  │
+└─────────────────────────────────────┘
+```
+
+### Phase X.5 Subgroup Structure Examples
+
+#### Phase 1.5 (Post-Foundation Review)
+- **1.5.1**: Infrastructure & Workflow Enhancements
+- **1.5.2**: Security Hardening & Compliance  
+- **1.5.3**: Development Experience Optimization
+
+#### Phase 2.5 (Post-Core Features Review)
+- **2.5.1**: Visual Design & Brand Identity
+- **2.5.2**: Accessibility & Mobile Experience
+- **2.5.3**: Security & Performance Production
+
+#### Phase 3.5 (Post-Production Features Review)
+- **3.5.1**: Final Security Audit & Hardening
+- **3.5.2**: Production Deployment Optimization
+- **3.5.3**: Monitoring & Observability Enhancement
+
+### Phase X.5 Documentation Standards
+
+#### Required Documents per Phase X.5
+1. **PHASE_X_COMPREHENSIVE_REVIEW_REPORT.md**: Multi-agent assessment with scores
+2. **PHASE_X.5_OVERVIEW.md**: Quality transformation strategy and subgroup breakdown
+3. **X.5.N_subgroup_name.md**: Context document for each improvement subgroup
+
+#### Review Report Template
+- **Executive Summary**: Overall quality assessment and critical findings
+- **Agent Reports**: Detailed findings from each specialized agent
+- **Critical Issues**: Production blockers with impact and effort estimates
+- **Quality Transformation Plan**: Current → target scores with improvement strategy
+
+#### Subgroup Context Template
+- **Objectives**: Clear improvement goals and success metrics
+- **MCP Integration Strategy**: Specialized agent usage for efficiency
+- **Implementation Approach**: Technical strategy with quality gates
+- **Testing & Validation**: Comprehensive validation requirements
+- **Integration Points**: Dependencies and deliverables
 │ 1. COMPREHENSIVE CODE REVIEW        │
 │    - Multi-agent collaborative      │
 │    - All specialists (4-6 agents)   │
