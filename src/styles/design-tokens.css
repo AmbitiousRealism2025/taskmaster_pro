@@ -6,6 +6,14 @@
   --brand-secondary: #06b6d4; /* cyan-500 */
   --brand-tertiary: #14b8a6; /* teal-500 */
   
+  /* Gradient System - Purple to Teal */
+  --gradient-primary: linear-gradient(135deg, #8b5cf6 0%, #14b8a6 100%);
+  --gradient-subtle: linear-gradient(135deg, rgb(139 92 246 / 0.2) 0%, rgb(20 184 166 / 0.2) 100%);
+  --gradient-accent: linear-gradient(135deg, rgb(139 92 246 / 0.1) 0%, rgb(20 184 166 / 0.1) 100%);
+  --gradient-hover: linear-gradient(135deg, #7c3aed 0%, #0f766e 100%);
+  --gradient-border: linear-gradient(135deg, rgb(139 92 246 / 0.3) 0%, rgb(20 184 166 / 0.3) 100%);
+  --gradient-text: linear-gradient(135deg, #8b5cf6 0%, #14b8a6 100%);
+  
   /* Semantic Colors */
   --color-background: #ffffff;
   --color-foreground: #0f172a; /* slate-900 */
@@ -92,6 +100,14 @@
 }
 
 [data-theme="dark"] {
+  /* Gradient System - Dark Mode Variants */
+  --gradient-primary: linear-gradient(135deg, #a855f7 0%, #14b8a6 100%);
+  --gradient-subtle: linear-gradient(135deg, rgb(168 85 247 / 0.2) 0%, rgb(20 184 166 / 0.2) 100%);
+  --gradient-accent: linear-gradient(135deg, rgb(168 85 247 / 0.1) 0%, rgb(20 184 166 / 0.1) 100%);
+  --gradient-hover: linear-gradient(135deg, #9333ea 0%, #0f766e 100%);
+  --gradient-border: linear-gradient(135deg, rgb(168 85 247 / 0.3) 0%, rgb(20 184 166 / 0.3) 100%);
+  --gradient-text: linear-gradient(135deg, #a855f7 0%, #14b8a6 100%);
+
   --color-background: #020617; /* slate-950 */
   --color-foreground: #f8fafc; /* slate-50 */
   --color-card: #0f172a; /* slate-900 */

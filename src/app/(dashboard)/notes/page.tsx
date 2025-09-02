@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { NotesList } from '@/components/notes/NotesList'
-import { TiptapEditor } from '@/components/notes/TiptapEditor'
+import { TiptapEditor } from '@/components/notes/TiptapEditorLazy'
 import { NoteForm } from '@/components/notes/NoteForm'
 import { Button } from '@/components/ui/button'
 import { useNotesStore } from '@/stores/notesStore'

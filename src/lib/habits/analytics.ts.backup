@@ -1,0 +1,580 @@
+import { 
+  Habit, 
+  HabitEntry, 
+  ProductivityMetrics, 
+  HabitProductivityCorrelation,
+  WeeklyInsights,
+  StreakMomentum,
+  HabitPattern,
+  HabitChartData,
+  ProductivityChartData,
+  TimeProductivityData
+} from '@/types/habit'
+import { StreakCalculator } from './streak-calculator'
+
+export interface AnalyticsTimeframe {
+  start: Date
+  end: Date
+  granularity: 'day' | 'week' | 'month'
+}
+
+export interface HabitAnalyticsInput {
+  habit: Habit
+  entries: HabitEntry[]
+  timeframe?: AnalyticsTimeframe
+}
+
+export class HabitAnalytics {
+  /**
+   * Generate comprehensive habit chart data for visualization
+   */
+  static generateChartData(
+    habit: Habit,
+    entries: HabitEntry[],
+    timeframe: AnalyticsTimeframe
+  ): HabitChartData[] {
+    const chartData: HabitChartData[] = []
+    const entriesMap = new Map(entries.map(entry => [entry.date, entry]))
+    
+    const current = new Date(timeframe.start)
+    let runningStreak = 0
+    let lastCompletedDate: string | null = null
+
+    while (current <= timeframe.end) {
+      const dateStr = current.toISOString().split('T')[0]
+      const entry = entriesMap.get(dateStr)
+      const completed = entry?.completed ?? false
+
+      // Update running streak calculation
+      if (completed) {
+        runningStreak = this.shouldIncrementStreak(lastCompletedDate, dateStr, habit.frequency) 
+          ? runningStreak + 1 
+          : 1
+        lastCompletedDate = dateStr
+      } else if (this.isStreakBroken(lastCompletedDate, dateStr, habit.frequency, habit.gracePeriod)) {
+        runningStreak = 0
+      }
+
+      chartData.push({
+        date: dateStr,
+        completed,
+        value: entry?.value,
+        streak: runningStreak,
+        formattedDate: current.toLocaleDateString('en-US', { 
+          month: 'short', 
+          day: 'numeric' 
+        }),
+        dayOfWeek: current.toLocaleDateString('en-US', { weekday: 'short' })
+      })
+
+      // Increment date based on granularity
+      switch (timeframe.granularity) {
+        case 'day':
+          current.setDate(current.getDate() + 1)
+          break
+        case 'week':
+          current.setDate(current.getDate() + 7)
+          break
+        case 'month':
+          current.setMonth(current.getMonth() + 1)
+          break
+      }
+    }
+
+    return chartData
+  }
+
+  /**
+   * Analyze habit patterns and correlations
+   */
+  static analyzePatterns(
+    habit: Habit,
+    entries: HabitEntry[],
+    productivityData?: ProductivityMetrics[]
+  ): HabitPattern[] {
+    const patterns: HabitPattern[] = []
+
+    // Time-based patterns
+    const timePattern = this.analyzeTimePatterns(entries)
+    if (timePattern) patterns.push(timePattern)
+
+    // Weekly patterns
+    const weeklyPattern = this.analyzeWeeklyPatterns(entries)
+    if (weeklyPattern) patterns.push(weeklyPattern)
+
+    // Productivity correlation
+    if (productivityData) {
+      const productivityPattern = this.analyzeProductivityCorrelation(entries, productivityData)
+      if (productivityPattern) patterns.push(productivityPattern)
+    }
+
+    // Streak recovery patterns
+    const recoveryPattern = this.analyzeRecoveryPatterns(entries, habit)
+    if (recoveryPattern) patterns.push(recoveryPattern)
+
+    return patterns
+  }
+
+  private static analyzeTimePatterns(entries: HabitEntry[]): HabitPattern | null {
+    const completedEntries = entries.filter(e => e.completed && e.completedAt)
+    if (completedEntries.length < 10) return null
+
+    const hourCounts = new Map<number, number>()
+    
+    completedEntries.forEach(entry => {
+      if (entry.completedAt) {
+        const hour = new Date(entry.completedAt).getHours()
+        hourCounts.set(hour, (hourCounts.get(hour) || 0) + 1)
+      }
+    })
+
+    const totalEntries = completedEntries.length
+    const peakHour = [...hourCounts.entries()]
+      .sort((a, b) => b[1] - a[1])[0]
+
+    if (peakHour[1] / totalEntries > 0.3) { // 30% threshold
+      return {
+        type: 'TIME_CORRELATION',
+        description: `Most frequently completed at ${this.formatHour(peakHour[0])} (${Math.round(peakHour[1] / totalEntries * 100)}% of the time)`,
+        confidence: Math.min(peakHour[1] / totalEntries, 0.9),
+        suggestion: `Consider setting a reminder for ${this.formatHour(peakHour[0])} to maximize consistency`,
+        dataPoints: [...hourCounts.entries()].map(([hour, count]) => ({
+          hour,
+          count,
+          percentage: count / totalEntries
+        }))
+      }
+    }
+
+    return null
+  }
+
+  private static analyzeWeeklyPatterns(entries: HabitEntry[]): HabitPattern | null {
+    const completedEntries = entries.filter(e => e.completed)
+    if (completedEntries.length < 14) return null
+
+    const dayOfWeekCounts = new Map<number, number>()
+    
+    completedEntries.forEach(entry => {
+      const dayOfWeek = new Date(entry.date).getDay()
+      dayOfWeekCounts.set(dayOfWeek, (dayOfWeekCounts.get(dayOfWeek) || 0) + 1)
+    })
+
+    const totalWeeks = Math.ceil(completedEntries.length / 7)
+    const averagePerDay = completedEntries.length / 7
+
+    // Find significantly high or low performing days
+    const significantDays = [...dayOfWeekCounts.entries()]
+      .filter(([_, count]) => Math.abs(count - averagePerDay) > averagePerDay * 0.5)
+      .sort((a, b) => b[1] - a[1])
+
+    if (significantDays.length > 0) {
+      const [bestDay, bestCount] = significantDays[0]
+      const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+      
+      return {
+        type: 'TIME_CORRELATION',
+        description: `${dayNames[bestDay]}s show highest completion rate (${Math.round(bestCount / totalWeeks * 100)}% above average)`,
+        confidence: Math.min((bestCount - averagePerDay) / averagePerDay, 0.8),
+        suggestion: `Use ${dayNames[bestDay]}s as anchor days to build consistency`,
+        dataPoints: [...dayOfWeekCounts.entries()].map(([day, count]) => ({
+          dayOfWeek: dayNames[day],
+          count,
+          aboveAverage: count > averagePerDay
+        }))
+      }
+    }
+
+    return null
+  }
+
+  private static analyzeProductivityCorrelation(
+    entries: HabitEntry[],
+    productivityData: ProductivityMetrics[]
+  ): HabitPattern | null {
+    const completedDates = new Set(entries.filter(e => e.completed).map(e => e.date))
+    const productivityMap = new Map(productivityData.map(p => [p.date, p.productivityScore]))
+
+    let completedProductivity = 0
+    let missedProductivity = 0
+    let completedCount = 0
+    let missedCount = 0
+
+    productivityData.forEach(metric => {
+      const wasCompleted = completedDates.has(metric.date)
+      if (wasCompleted) {
+        completedProductivity += metric.productivityScore
+        completedCount++
+      } else {
+        missedProductivity += metric.productivityScore
+        missedCount++
+      }
+    })
+
+    if (completedCount < 5 || missedCount < 5) return null
+
+    const completedAvg = completedProductivity / completedCount
+    const missedAvg = missedProductivity / missedCount
+    const correlation = (completedAvg - missedAvg) / Math.max(completedAvg, missedAvg)
+
+    if (Math.abs(correlation) > 0.15) { // 15% threshold
+      return {
+        type: 'MOOD_CORRELATION',
+        description: correlation > 0 
+          ? `Completing this habit correlates with ${Math.round(correlation * 100)}% higher productivity`
+          : `Missing this habit correlates with ${Math.round(Math.abs(correlation) * 100)}% lower productivity`,
+        confidence: Math.min(Math.abs(correlation), 0.8),
+        suggestion: correlation > 0
+          ? 'Prioritize this habit on important work days'
+          : 'Consider adjusting habit timing or approach',
+        dataPoints: [{
+          completedAvgProductivity: completedAvg,
+          missedAvgProductivity: missedAvg,
+          correlation,
+          sampleSize: completedCount + missedCount
+        }]
+      }
+    }
+
+    return null
+  }
+
+  private static analyzeRecoveryPatterns(entries: HabitEntry[], habit: Habit): HabitPattern | null {
+    if (entries.length < 30) return null
+
+    const streakData = StreakCalculator.calculateStreaks({
+      entries,
+      config: {
+        frequency: habit.frequency,
+        gracePeriod: habit.gracePeriod,
+        createdAt: habit.createdAt
+      }
+    })
+
+    // Analyze recovery time after breaks
+    const breaks: Array<{ breakLength: number, recoveryTime: number }> = []
+    let currentBreak = 0
+    let inBreak = false
+
+    for (let i = 0; i < entries.length; i++) {
+      if (!entries[i].completed) {
+        if (!inBreak) {
+          inBreak = true
+          currentBreak = 1
+        } else {
+          currentBreak++
+        }
+      } else {
+        if (inBreak) {
+          breaks.push({ breakLength: currentBreak, recoveryTime: 1 })
+          inBreak = false
+          currentBreak = 0
+        }
+      }
+    }
+
+    if (breaks.length < 3) return null
+
+    const avgRecoveryTime = breaks.reduce((sum, b) => sum + b.recoveryTime, 0) / breaks.length
+    const avgBreakLength = breaks.reduce((sum, b) => sum + b.breakLength, 0) / breaks.length
+
+    return {
+      type: 'TASK_CORRELATION',
+      description: `After breaks averaging ${Math.round(avgBreakLength)} days, typical recovery takes ${Math.round(avgRecoveryTime)} attempts`,
+      confidence: Math.min(breaks.length / 10, 0.7),
+      suggestion: avgRecoveryTime > 3 
+        ? 'Consider setting easier targets after breaks to rebuild momentum'
+        : 'Your recovery pattern is strong - trust the process',
+      dataPoints: breaks
+    }
+  }
+
+  private static formatHour(hour: number): string {
+    const period = hour >= 12 ? 'PM' : 'AM'
+    const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour
+    return `${displayHour}:00 ${period}`
+  }
+
+  private static shouldIncrementStreak(
+    lastCompletedDate: string | null,
+    currentDate: string,
+    frequency: string
+  ): boolean {
+    if (!lastCompletedDate) return false
+    
+    const last = new Date(lastCompletedDate)
+    const current = new Date(currentDate)
+    const daysDiff = Math.floor((current.getTime() - last.getTime()) / (1000 * 60 * 60 * 24))
+    
+    switch (frequency) {
+      case 'DAILY': return daysDiff === 1
+      case 'WEEKLY': return daysDiff === 7
+      case 'MONTHLY': return daysDiff >= 28 && daysDiff <= 31
+      default: return daysDiff === 1
+    }
+  }
+
+  private static isStreakBroken(
+    lastCompletedDate: string | null,
+    currentDate: string,
+    frequency: string,
+    gracePeriod: number
+  ): boolean {
+    if (!lastCompletedDate) return false
+    
+    const last = new Date(lastCompletedDate)
+    const current = new Date(currentDate)
+    const daysDiff = Math.floor((current.getTime() - last.getTime()) / (1000 * 60 * 60 * 24))
+    
+    let expectedInterval: number
+    switch (frequency) {
+      case 'DAILY': expectedInterval = 1; break
+      case 'WEEKLY': expectedInterval = 7; break
+      case 'MONTHLY': expectedInterval = 30; break
+      default: expectedInterval = 1
+    }
+    
+    return daysDiff > expectedInterval + gracePeriod
+  }
+
+  /**
+   * Calculate habit-specific productivity correlations
+   */
+  static calculateProductivityCorrelations(
+    habits: Habit[],
+    habitEntries: Map<string, HabitEntry[]>,
+    productivityData: ProductivityMetrics[]
+  ): HabitProductivityCorrelation[] {
+    const correlations: HabitProductivityCorrelation[] = []
+
+    habits.forEach(habit => {
+      const entries = habitEntries.get(habit.id) || []
+      const completedDates = new Set(entries.filter(e => e.completed).map(e => e.date))
+      
+      let completedProductivity = 0
+      let missedProductivity = 0
+      let completedCount = 0
+      let missedCount = 0
+
+      productivityData.forEach(metric => {
+        const wasCompleted = completedDates.has(metric.date)
+        if (wasCompleted) {
+          completedProductivity += metric.productivityScore
+          completedCount++
+        } else {
+          missedProductivity += metric.productivityScore
+          missedCount++
+        }
+      })
+
+      if (completedCount >= 3 && missedCount >= 3) {
+        const completedAvg = completedProductivity / completedCount
+        const missedAvg = missedProductivity / missedCount
+        const correlation = (completedAvg - missedAvg) / Math.max(completedAvg, missedAvg, 1)
+        
+        let impact: 'HIGH' | 'MEDIUM' | 'LOW' | 'NEGATIVE'
+        if (correlation > 0.3) impact = 'HIGH'
+        else if (correlation > 0.15) impact = 'MEDIUM'
+        else if (correlation > 0) impact = 'LOW'
+        else impact = 'NEGATIVE'
+
+        correlations.push({
+          habitId: habit.id,
+          habitName: habit.name,
+          correlation,
+          impact,
+          sampleSize: completedCount + missedCount,
+          confidence: Math.min(Math.abs(correlation) * 2, 0.9),
+          trend: this.calculateCorrelationTrend(entries, productivityData)
+        })
+      }
+    })
+
+    return correlations.sort((a, b) => Math.abs(b.correlation) - Math.abs(a.correlation))
+  }
+
+  private static calculateCorrelationTrend(
+    entries: HabitEntry[],
+    productivityData: ProductivityMetrics[]
+  ): 'IMPROVING' | 'STABLE' | 'DECLINING' {
+    // Simple trend calculation based on recent vs historical correlation
+    const midpoint = Math.floor(entries.length / 2)
+    const recentEntries = entries.slice(midpoint)
+    const historicalEntries = entries.slice(0, midpoint)
+    
+    if (recentEntries.length < 5 || historicalEntries.length < 5) return 'STABLE'
+
+    // Calculate correlation for both periods (simplified)
+    const recentCompletionRate = recentEntries.filter(e => e.completed).length / recentEntries.length
+    const historicalCompletionRate = historicalEntries.filter(e => e.completed).length / historicalEntries.length
+    
+    const trend = recentCompletionRate - historicalCompletionRate
+    
+    if (trend > 0.1) return 'IMPROVING'
+    if (trend < -0.1) return 'DECLINING'
+    return 'STABLE'
+  }
+
+  /**
+   * Generate weekly insights for habit performance
+   */
+  static generateWeeklyInsights(
+    habits: Habit[],
+    habitEntries: Map<string, HabitEntry[]>,
+    productivityData: ProductivityMetrics[]
+  ): WeeklyInsights {
+    const now = new Date()
+    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+    
+    // Analyze time productivity patterns
+    const timeProductivity = this.analyzeTimeProductivity(productivityData, weekAgo, now)
+    
+    const peakHour = timeProductivity.reduce((peak, current) => 
+      current.productivity > peak.productivity ? current : peak
+    ).hour
+
+    const lowEnergyPeriods = timeProductivity
+      .filter(tp => tp.productivity < 0.3)
+      .sort((a, b) => a.hour - b.hour)
+
+    const lowEnergyPeriod = lowEnergyPeriods.length > 0 
+      ? `${lowEnergyPeriods[0].hour}:00-${lowEnergyPeriods[0].hour + 1}:00`
+      : 'None identified'
+
+    // Calculate overall habit performance
+    const habitPerformances = habits.map(habit => {
+      const entries = habitEntries.get(habit.id) || []
+      const weekEntries = entries.filter(e => 
+        new Date(e.date) >= weekAgo && new Date(e.date) <= now
+      )
+      const completionRate = weekEntries.length > 0 
+        ? weekEntries.filter(e => e.completed).length / weekEntries.length
+        : 0
+      
+      return { habit, completionRate, entries: weekEntries }
+    })
+
+    const overallCompletion = habitPerformances.reduce((sum, hp) => sum + hp.completionRate, 0) / habits.length
+    const trend = overallCompletion > 0.7 ? 'IMPROVING' : overallCompletion > 0.4 ? 'STABLE' : 'DECLINING'
+
+    const keyInsights = this.generateKeyInsights(habitPerformances, timeProductivity)
+    const recommendations = this.generateRecommendations(habitPerformances, timeProductivity)
+
+    return {
+      peakHour,
+      lowEnergyPeriod,
+      recommendedFocusTime: `${peakHour}:00-${peakHour + 2}:00`,
+      averageFocusSession: Math.round(
+        timeProductivity.reduce((sum, tp) => sum + tp.focusMinutes, 0) / timeProductivity.length
+      ),
+      productivityTrend: trend,
+      keyInsights,
+      actionableRecommendations: recommendations,
+      confidence: Math.min(productivityData.length / 7, 0.9)
+    }
+  }
+
+  private static analyzeTimeProductivity(
+    productivityData: ProductivityMetrics[],
+    startDate: Date,
+    endDate: Date
+  ): TimeProductivityData[] {
+    const hourlyData = new Map<number, { productivity: number[], focus: number[], tasks: number[], habits: number[] }>()
+    
+    // Initialize all hours
+    for (let hour = 0; hour < 24; hour++) {
+      hourlyData.set(hour, { productivity: [], focus: [], tasks: [], habits: [] })
+    }
+
+    productivityData
+      .filter(pd => new Date(pd.date) >= startDate && new Date(pd.date) <= endDate)
+      .forEach(data => {
+        // Simulate hourly distribution (in real app, you'd have actual hourly data)
+        const peakHour = data.peakProductivityHour || 10
+        for (let hour = 0; hour < 24; hour++) {
+          const hourData = hourlyData.get(hour)!
+          // Simple gaussian distribution around peak hour
+          const distance = Math.min(Math.abs(hour - peakHour), 24 - Math.abs(hour - peakHour))
+          const productivity = Math.max(0, data.productivityScore * Math.exp(-distance * distance / 8))
+          
+          hourData.productivity.push(productivity)
+          hourData.focus.push(data.focusHours * productivity)
+          hourData.tasks.push(data.taskCompletionRate * productivity)
+          hourData.habits.push(data.habitConsistency * productivity)
+        })
+      })
+
+    return Array.from(hourlyData.entries()).map(([hour, data]) => ({
+      hour,
+      productivity: data.productivity.length > 0 
+        ? data.productivity.reduce((sum, p) => sum + p, 0) / data.productivity.length
+        : 0,
+      focusMinutes: data.focus.length > 0
+        ? Math.round(data.focus.reduce((sum, f) => sum + f, 0) / data.focus.length * 60)
+        : 0,
+      taskCount: data.tasks.length > 0
+        ? Math.round(data.tasks.reduce((sum, t) => sum + t, 0) / data.tasks.length * 10)
+        : 0,
+      habitCompletions: data.habits.length > 0
+        ? Math.round(data.habits.reduce((sum, h) => sum + h, 0) / data.habits.length * 5)
+        : 0
+    }))
+  }
+
+  private static generateKeyInsights(
+    habitPerformances: Array<{ habit: Habit, completionRate: number, entries: HabitEntry[] }>,
+    timeProductivity: TimeProductivityData[]
+  ): string[] {
+    const insights: string[] = []
+    
+    // Habit performance insights
+    const topHabit = habitPerformances.reduce((top, current) => 
+      current.completionRate > top.completionRate ? current : top
+    )
+    
+    if (topHabit.completionRate > 0.8) {
+      insights.push(`${topHabit.habit.name} shows excellent consistency at ${Math.round(topHabit.completionRate * 100)}%`)
+    }
+
+    const strugglingHabits = habitPerformances.filter(hp => hp.completionRate < 0.3)
+    if (strugglingHabits.length > 0) {
+      insights.push(`${strugglingHabits.length} habit${strugglingHabits.length === 1 ? '' : 's'} need attention this week`)
+    }
+
+    // Time productivity insights
+    const peakProductivity = Math.max(...timeProductivity.map(tp => tp.productivity))
+    const peakHour = timeProductivity.find(tp => tp.productivity === peakProductivity)?.hour || 10
+    
+    insights.push(`Peak productivity occurs around ${peakHour}:00`)
+
+    return insights
+  }
+
+  private static generateRecommendations(
+    habitPerformances: Array<{ habit: Habit, completionRate: number, entries: HabitEntry[] }>,
+    timeProductivity: TimeProductivityData[]
+  ): string[] {
+    const recommendations: string[] = []
+    
+    // Habit-specific recommendations
+    const strugglingHabits = habitPerformances.filter(hp => hp.completionRate < 0.5)
+    strugglingHabits.forEach(hp => {
+      recommendations.push(`Reduce ${hp.habit.name} target by 25% to rebuild momentum`)
+    })
+
+    // Time-based recommendations
+    const peakHour = timeProductivity.reduce((peak, current) => 
+      current.productivity > peak.productivity ? current : peak
+    ).hour
+
+    recommendations.push(`Schedule important habits during ${peakHour}:00-${peakHour + 1}:00 window`)
+
+    // General recommendations
+    const overallRate = habitPerformances.reduce((sum, hp) => sum + hp.completionRate, 0) / habitPerformances.length
+    if (overallRate < 0.6) {
+      recommendations.push('Focus on consistency over perfection - complete 3 habits well rather than 5 poorly')
+    }
+
+    return recommendations
+  }
+}

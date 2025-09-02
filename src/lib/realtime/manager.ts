@@ -191,7 +191,7 @@ class RealtimeManager {
 
   private getDeviceType(): 'desktop' | 'tablet' | 'mobile' {
     const userAgent = navigator.userAgent.toLowerCase()
-    if (/tablet|ipad|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent)) {
+    if (/tablet|ipad|playbook|silk|(puffin(?!.*(IP|AP|WP)))/i.test(userAgent)) {
       return 'tablet'
     }
     if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(userAgent)) {

@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { useRealtime, useOptimisticMutation } from '@/components/providers/realtime-provider'
 import { VirtualScroller } from '@/hooks/use-virtual-scrolling'
-import { usePerformanceMonitor, withPerformanceTracking } from '@/hooks/use-performance-monitor'
+import { usePerformanceMonitor } from '@/hooks/use-performance-monitor'
 import { Task } from '@/types/task'
 import { RealtimeEvent } from '@/types/realtime'
 import { CheckCircle2, Clock, AlertCircle, Loader2 } from 'lucide-react'
@@ -285,4 +285,4 @@ function RealtimeTaskListComponent({ initialTasks, onTaskUpdate }: RealtimeTaskL
   )
 }
 
-export const RealtimeTaskList = withPerformanceTracking(RealtimeTaskListComponent, 'RealtimeTaskList')
+export const RealtimeTaskList = RealtimeTaskListComponent

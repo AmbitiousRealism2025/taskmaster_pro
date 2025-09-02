@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { RealtimeTaskList } from '@/components/tasks/RealtimeTaskList'
+import { RealtimeTaskList } from '@/components/realtime/RealtimeDemoLazy'
 import { useRealtime, usePresence } from '@/components/providers/realtime-provider'
 import { usePerformanceMonitor } from '@/hooks/use-performance-monitor'
 import { Task } from '@/types/task'
@@ -30,7 +30,8 @@ const mockTasks: Task[] = [
     dueDate: new Date('2025-01-20'),
     createdAt: new Date(),
     updatedAt: new Date(),
-    userId: 'user1'
+    userId: 'user1',
+    tags: ['websocket', 'realtime']
   },
   {
     id: '2', 
@@ -41,7 +42,8 @@ const mockTasks: Task[] = [
     dueDate: new Date('2025-01-25'),
     createdAt: new Date(),
     updatedAt: new Date(),
-    userId: 'user1'
+    userId: 'user1',
+    tags: ['performance', 'monitoring']
   },
   {
     id: '3',
@@ -51,7 +53,8 @@ const mockTasks: Task[] = [
     priority: 'MEDIUM',
     createdAt: new Date(),
     updatedAt: new Date(),
-    userId: 'user1'
+    userId: 'user1',
+    tags: ['virtual-scrolling', 'performance']
   }
 ]
 
@@ -328,7 +331,7 @@ export default function RealtimeDemoPage() {
         <CardContent>
           <RealtimeTaskList 
             initialTasks={mockTasks}
-            onTaskUpdate={(task) => {
+            onTaskUpdate={(task: Task) => {
               console.log('Task updated:', task)
             }}
           />

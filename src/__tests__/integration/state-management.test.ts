@@ -3,21 +3,22 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useRealtime } from '@/components/providers/realtime-provider'
 import StateOrchestrator from '@/lib/state-orchestration/orchestrator'
 import { Task } from '@/types/task'
+import { vi } from 'vitest'
 
 // Mock Supabase
-jest.mock('@/lib/supabase/client', () => ({
+vi.mock('@/lib/supabase/client', () => ({
   supabase: {
-    channel: jest.fn(() => ({
-      on: jest.fn().mockReturnThis(),
-      subscribe: jest.fn().mockResolvedValue('SUBSCRIBED'),
-      unsubscribe: jest.fn(),
-      track: jest.fn()
+    channel: vi.fn(() => ({
+      on: vi.fn().mockReturnThis(),
+      subscribe: vi.fn().mockResolvedValue('SUBSCRIBED'),
+      unsubscribe: vi.fn(),
+      track: vi.fn()
     }))
   }
 }))
 
 // Mock session
-jest.mock('next-auth/react', () => ({
+vi.mock('next-auth/react', () => ({
   useSession: () => ({
     data: { user: { id: 'test-user-1' } }
   })
@@ -112,7 +113,7 @@ describe('State Management Integration', () => {
     })
 
     // Mock successful API call
-    global.fetch = jest.fn().mockResolvedValueOnce({
+    global.fetch = vi.fn().mockResolvedValueOnce({
       ok: true,
       json: async () => mockTask
     })
@@ -130,13 +131,13 @@ describe('State Management Integration', () => {
 
   it('should handle cross-tab synchronization', async () => {
     const mockBroadcastChannel = {
-      postMessage: jest.fn(),
-      addEventListener: jest.fn(),
-      close: jest.fn()
+      postMessage: vi.fn(),
+      addEventListener: vi.fn(),
+      close: vi.fn()
     }
 
     // Mock BroadcastChannel
-    global.BroadcastChannel = jest.fn(() => mockBroadcastChannel) as any
+    global.BroadcastChannel = vi.fn(() => mockBroadcastChannel) as any
 
     // Create new orchestrator (should set up broadcast channel)
     const orchestrator2 = new StateOrchestrator(queryClient)

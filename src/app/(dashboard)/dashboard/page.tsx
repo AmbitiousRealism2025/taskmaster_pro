@@ -1,8 +1,11 @@
+'use client'
+
 import React, { Suspense } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { CheckSquare, Clock, TrendingUp, Users } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 // Dashboard skeleton component
 function DashboardSkeleton() {
@@ -52,32 +55,53 @@ const dashboardStats = [
 function DashboardContent() {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className="space-y-2"
+      >
+        <h1 className="text-4xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-teal-600 dark:from-violet-400 dark:to-teal-400">
+          Dashboard
+        </h1>
+        <p className="text-lg text-muted-foreground font-medium">
           Welcome back! Here's an overview of your productivity.
         </p>
-      </div>
+      </motion.div>
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {dashboardStats.map((stat) => {
+{dashboardStats.map((stat, index) => {
           const Icon = stat.icon
           return (
-            <Card key={stat.title}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  {stat.title}
-                </CardTitle>
-                <Icon className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <p className="text-xs text-muted-foreground">
-                  {stat.change}
-                </p>
-              </CardContent>
-            </Card>
+            <motion.div
+              key={stat.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Card className="h-full cursor-pointer transition-shadow hover:shadow-lg">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-semibold tracking-tight">
+                    {stat.title}
+                  </CardTitle>
+                  <motion.div
+                    whileHover={{ rotate: 5, scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <Icon className="h-5 w-5 text-muted-foreground" />
+                  </motion.div>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-bold tracking-tight">{stat.value}</div>
+                  <p className="text-sm text-muted-foreground font-medium">
+                    {stat.change}
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
           )
         })}
       </div>
@@ -115,19 +139,25 @@ function DashboardContent() {
               Common tasks and shortcuts
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
-            <Button className="w-full justify-start" variant="outline">
-              <CheckSquare className="mr-2 h-4 w-4" />
-              New Task
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <Users className="mr-2 h-4 w-4" />
-              New Project
-            </Button>
-            <Button className="w-full justify-start" variant="outline">
-              <Clock className="mr-2 h-4 w-4" />
-              Start Timer
-            </Button>
+          <CardContent className="space-y-3">
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button className="w-full justify-start" variant="gradient">
+                <CheckSquare className="mr-2 h-4 w-4" />
+                New Task
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button className="w-full justify-start" variant="gradient-outline">
+                <Users className="mr-2 h-4 w-4" />
+                New Project
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button className="w-full justify-start" variant="outline">
+                <Clock className="mr-2 h-5 w-5" />
+                Start Timer
+              </Button>
+            </motion.div>
           </CardContent>
         </Card>
       </div>

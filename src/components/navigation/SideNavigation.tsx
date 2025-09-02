@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { 
@@ -87,10 +87,10 @@ export function SideNavigation() {
       <div key={item.title} className={cn('space-y-1', level > 0 && 'ml-6')}>
         <div
           className={cn(
-            'flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+            'flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200',
             isActive 
-              ? 'bg-accent text-accent-foreground' 
-              : 'text-muted-foreground hover:text-foreground hover:bg-accent/50',
+              ? 'gradient-subtle-bg text-foreground font-semibold shadow-sm' 
+              : 'text-muted-foreground hover:text-foreground hover:bg-accent/50 hover:scale-105',
             'group cursor-pointer'
           )}
         >
@@ -173,7 +173,7 @@ export function SideNavigation() {
           <div className="space-y-6">
             {/* Quick Actions */}
             <div className="space-y-2">
-              <Button className="w-full justify-start" size="sm">
+              <Button variant="gradient" className="w-full justify-start" size="sm">
                 <Plus className="mr-2 h-4 w-4" />
                 New Task
               </Button>

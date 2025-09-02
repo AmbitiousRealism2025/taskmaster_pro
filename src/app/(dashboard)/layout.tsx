@@ -2,7 +2,8 @@ import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
 import { TopNavigation } from '@/components/navigation/TopNavigation'
 import { SideNavigation } from '@/components/navigation/SideNavigation'
-import { RealtimeProvider } from '@/components/providers/realtime-provider'
+// TEMPORARY: Commented out for demo
+// import { RealtimeProvider } from '@/components/providers/realtime-provider'
 
 // Dynamically import secondary navigation components
 const CommandPalette = dynamic(
@@ -26,38 +27,36 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   return (
-    <RealtimeProvider>
-      <div className="min-h-screen bg-background">
-        {/* Top Navigation - Fixed header */}
-        <TopNavigation />
+    <div className="min-h-screen bg-background">
+      {/* Top Navigation - Fixed header */}
+      <TopNavigation />
+      
+      <div className="flex">
+        {/* Sidebar Navigation - Collapsible */}
+        <SideNavigation />
         
-        <div className="flex">
-          {/* Sidebar Navigation - Collapsible */}
-          <SideNavigation />
-          
-          {/* Main Content Area */}
-          <main className="flex-1 lg:pl-64">
-            <div className="px-4 py-6 sm:px-6 lg:px-8">
-              {/* Breadcrumbs */}
-              <Suspense fallback={<div className="h-6 mb-6" />}>
-                <Breadcrumbs />
-              </Suspense>
-              
-              {/* Page Content */}
-              {children}
-            </div>
-          </main>
-        </div>
-        
-        {/* Global Components */}
-        <Suspense>
-          <CommandPalette />
-        </Suspense>
-        
-        <Suspense>
-          <QuickActions />
-        </Suspense>
+        {/* Main Content Area */}
+        <main className="flex-1 lg:pl-64">
+          <div className="px-4 py-6 sm:px-6 lg:px-8">
+            {/* Breadcrumbs */}
+            <Suspense fallback={<div className="h-6 mb-6" />}>
+              <Breadcrumbs />
+            </Suspense>
+            
+            {/* Page Content */}
+            {children}
+          </div>
+        </main>
       </div>
-    </RealtimeProvider>
+      
+      {/* Global Components */}
+      <Suspense>
+        <CommandPalette />
+      </Suspense>
+      
+      <Suspense>
+        <QuickActions />
+      </Suspense>
+    </div>
   )
 }

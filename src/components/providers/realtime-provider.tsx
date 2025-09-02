@@ -155,7 +155,7 @@ export function RealtimeProvider({ children }: { children: React.ReactNode }) {
       realtimeManager.sendEvent(type, payload)
     },
     
-    performOptimisticUpdate: <T>(
+    performOptimisticUpdate: <T extends unknown>(
       entityType: 'task' | 'project' | 'note',
       entityId: string,
       operation: 'create' | 'update' | 'delete',
@@ -185,21 +185,7 @@ export function RealtimeProvider({ children }: { children: React.ReactNode }) {
   return (
     <RealtimeContext.Provider value={contextValue}>
       {children}
-      {/* Connection status indicator */}
-      {connectionStatus !== 'connected' && (
-        <div className="fixed bottom-4 right-4 z-50">
-          <div className={`
-            px-3 py-2 rounded-lg text-sm font-medium
-            ${connectionStatus === 'connecting' ? 'bg-amber-100 text-amber-800' : ''}
-            ${connectionStatus === 'error' ? 'bg-red-100 text-red-800' : ''}
-            ${connectionStatus === 'disconnected' ? 'bg-gray-100 text-gray-800' : ''}
-          `}>
-            {connectionStatus === 'connecting' && 'Connecting...'}
-            {connectionStatus === 'error' && 'Connection Error'}
-            {connectionStatus === 'disconnected' && 'Offline'}
-          </div>
-        </div>
-      )}
+      {/* Connection status moved to top navigation - no floating indicator needed */}
       
       {/* Performance metrics in development */}
       {process.env.NODE_ENV === 'development' && perfMetrics.memoryUsage > 0 && (

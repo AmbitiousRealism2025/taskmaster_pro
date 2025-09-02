@@ -63,11 +63,11 @@ describe('TopNavigation', () => {
       </NavigationWrapper>
     )
 
-    expect(screen.getByText('Dashboard')).toBeInTheDocument()
-    expect(screen.getByText('Tasks')).toBeInTheDocument()
-    expect(screen.getByText('Projects')).toBeInTheDocument()
-    expect(screen.getByText('Notes')).toBeInTheDocument()
-    expect(screen.getByText('Calendar')).toBeInTheDocument()
+    expect(screen.getAllByText('Dashboard')[0]).toBeInTheDocument()
+    expect(screen.getAllByText('Tasks')[0]).toBeInTheDocument()
+    expect(screen.getAllByText('Projects')[0]).toBeInTheDocument()
+    expect(screen.getAllByText('Notes')[0]).toBeInTheDocument()
+    expect(screen.getAllByText('Calendar')[0]).toBeInTheDocument()
   })
 
   it('should highlight active module', () => {

@@ -10,7 +10,10 @@ const cardVariants = cva(
         default: "",
         elevated: "shadow-lg",
         interactive: "hover:shadow-md cursor-pointer transition-shadow",
-        glassy: "backdrop-blur-sm bg-white/80 dark:bg-slate-900/80"
+        glassy: "backdrop-blur-sm bg-white/80 dark:bg-slate-900/80",
+        "gradient-border": "border-0 p-[1px] gradient-border-card",
+        "gradient-subtle": "gradient-subtle-bg",
+        "gradient-accent": "gradient-accent-bg border-0"
       }
     },
     defaultVariants: {

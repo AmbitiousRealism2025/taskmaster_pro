@@ -31,6 +31,27 @@ model User {
   notes    Note[]
   folders  Folder[]
   habits   Habit[]
+  habitCategories HabitCategory[]
+  productivityMetrics ProductivityMetric[]
+  aiInsights AIInsight[]
+  
+  // Calendar integration
+  userAuthProviders UserAuthProvider[]
+  calendarSyncConfig CalendarSyncConfig?
+  focusTimeBlocks FocusTimeBlock[]
+  productivityPatterns ProductivityPattern[]
+  calendarInsights CalendarInsight[]
+  calendarConflicts CalendarConflict[]
+  crossPlatformContacts CrossPlatformContact[]
+  
+  // Communication system
+  emailConfigurations EmailConfiguration[]
+  emailTemplates EmailTemplate[]
+  emailLogs EmailLog[]
+  emailCampaigns EmailCampaign[]
+  messageQueues MessageQueue[]
+  webhookEndpoints WebhookEndpoint[]
+  communicationPreferences CommunicationPreferences?
   
   // Metadata
   createdAt DateTime @default(now())
@@ -88,6 +109,7 @@ model Project {
   
   user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   tasks Task[]
+  habits Habit[]
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -118,6 +140,14 @@ model Task {
   dueDate     DateTime?
   estimatedMinutes Int?
   actualMinutes    Int?
+  
+  // Calendar integration
+  scheduledFor     DateTime?
+  calendarEventId  String?
+  estimatedTime    Int?      // minutes (alternative to estimatedMinutes)
+  type             String    @default("task") // 'task', 'deadline', 'meeting', 'focus-time'
+  tags             String[]  @default([])
+  source           String?   // 'manual', 'calendar_import', 'ai_suggestion'
   
   userId    String
   projectId String?
@@ -187,18 +217,473 @@ model Folder {
   @@map("folders")
 }
 
-model Habit {
+enum HabitFrequency {
+  DAILY
+  WEEKLY  
+  MONTHLY
+  CUSTOM
+}
+
+model HabitCategory {
   id          String @id @default(cuid())
   name        String
+  color       String
+  icon        String?
   description String?
-  color       String @default("#10b981")
-  targetFreq  Int    @default(1) // times per day
   userId      String
+  
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  habits Habit[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("habit_categories")
+}
+
+model Habit {
+  id          String        @id @default(cuid())
+  name        String
+  description String?
+  frequency   HabitFrequency @default(DAILY)
+  
+  // Target configuration
+  target      Int?          // Quantitative target (e.g., 8 glasses, 30 minutes)
+  unit        String?       // Unit of measurement
+  
+  // Tracking data
+  currentStreak    Int     @default(0)
+  bestStreak       Int     @default(0)
+  completionRate   Float   @default(0.0) // Percentage over lifetime
+  totalCompletions Int     @default(0)
+  
+  // AI features
+  successProbability Float?   // ML prediction 0-1
+  aiRecommendations  String[] @default([])
+  patternInsights    Json?    // Stored as JSONB
+  
+  // Scheduling
+  scheduledTime    String?  // HH:MM format
+  reminderEnabled  Boolean  @default(false)
+  gracePeriod      Int      @default(0) // Days of grace before streak breaks
+  
+  // Relations
+  userId     String
+  projectId  String?      // Link to project goals
+  categoryId String?
+  
+  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project  Project?        @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  category HabitCategory?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  entries  HabitEntry[]
+  
+  // Metadata
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("habits")
+}
+
+model HabitEntry {
+  id        String  @id @default(cuid())
+  habitId   String
+  date      String  // YYYY-MM-DD format for easy querying
+  completed Boolean @default(false)
+  value     Int?    // For quantitative habits
+  notes     String?
+  
+  // Metadata
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+  
+  habit Habit @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  
+  @@unique([habitId, date])
+  @@map("habit_entries")
+}
+
+// Analytics and insights models
+model ProductivityMetric {
+  id     String @id @default(cuid())
+  userId String
+  date   String // YYYY-MM-DD format
+  
+  // Task performance metrics
+  taskCompletionRate   Float @default(0.0)
+  averageTaskDuration  Float @default(0.0)
+  plannedVsActual      Float @default(0.0)
+  
+  // Time management metrics  
+  focusHours           Float @default(0.0)
+  distractionEvents    Int   @default(0)
+  peakProductivityHour Int?  // 0-23
+  
+  // Habit performance metrics
+  habitConsistency           Float @default(0.0)
+  activeStreaks              Int   @default(0)
+  habitProductivityCorrelation Float @default(0.0)
+  
+  // Overall score
+  productivityScore    Float @default(0.0)
+  
+  // Trends
+  weekOverWeekChange   Float @default(0.0)
+  monthOverMonthChange Float @default(0.0)
   
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
-  @@map("habits")
+  @@unique([userId, date])
+  @@map("productivity_metrics")
+}
+
+model AIInsight {
+  id          String @id @default(cuid())
+  userId      String
+  type        String // PRODUCTIVITY, HABIT, TIME, PATTERN
+  title       String
+  description String @db.Text
+  confidence  Float  @default(0.0)
+  actionable  Boolean @default(false)
+  recommendation String?
+  dataPoints     Json? // Supporting data as JSONB
+  
+  // Metadata
+  isViewed    Boolean @default(false)
+  isActionTaken Boolean @default(false)
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("ai_insights")
+}
+
+// Calendar Integration Models
+model UserAuthProvider {
+  id                String    @id @default(cuid())
+  userId            String
+  provider          String    // 'google', 'microsoft', 'outlook'
+  providerType      String    // 'calendar', 'email', 'oauth'
+  providerId        String
+  accessToken       String?   @db.Text
+  refreshToken      String?   @db.Text
+  expiresAt         DateTime?
+  scope             String?
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, provider, providerType])
+  @@map("user_auth_providers")
+}
+
+model CalendarSyncConfig {
+  id                    String  @id @default(cuid())
+  userId                String  @unique
+  calendarId            String  @default("primary")
+  syncDirection         String  @default("bidirectional") // 'import', 'export', 'bidirectional'
+  autoSync              Boolean @default(true)
+  syncInterval          Int     @default(15) // minutes
+  conflictResolution    String  @default("manual") // 'manual', 'calendar-wins', 'task-wins', 'latest-wins'
+  includeTaskTypes      String[] @default(["task", "deadline", "meeting", "focus-time"])
+  
+  // Working hours configuration
+  workingHoursEnabled   Boolean @default(true)
+  timezone              String  @default("UTC")
+  workingHoursSchedule  String  @default("[]") // JSON array of schedule objects
+  
+  // Focus time preferences
+  focusTimeMinDuration  Int     @default(30) // minutes
+  focusTimeBuffer       Int     @default(15) // minutes
+  focusTimeSlots        String  @default("[]") // JSON array of preferred time slots
+  
+  lastSyncAt            DateTime?
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("calendar_sync_config")
+}
+
+model FocusTimeBlock {
+  id                    String    @id @default(cuid())
+  userId                String
+  startTime             DateTime
+  endTime               DateTime
+  duration              Int       // minutes
+  taskIds               String[]  @default([])
+  calendarEventId       String?
+  
+  // Planned metrics
+  plannedProductivity   Float     @default(0.5)
+  
+  // Actual results
+  actualDuration        Int?      // minutes
+  completedTasks        Int       @default(0)
+  interruptions         Int       @default(0)
+  actualProductivity    Float?    // 1-10 scale
+  notes                 String?
+  
+  // Environment
+  location              String?
+  distractionLevel      String    @default("low") // 'low', 'medium', 'high'
+  tools                 String[]  @default([])    // e.g., ['slack-off', 'phone-silent']
+  
+  completedAt           DateTime?
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("focus_time_blocks")
+}
+
+model ProductivityPattern {
+  id                String  @id @default(cuid())
+  userId            String
+  timeOfDay         String  // HH:MM format
+  dayOfWeek         Int     // 0-6, Sunday-Saturday
+  productivityScore Float   // 1-10 scale
+  sampleSize        Int     @default(1)
+  confidence        Float   @default(0.1) // 0-1 scale
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, timeOfDay, dayOfWeek])
+  @@map("productivity_patterns")
+}
+
+model CalendarInsight {
+  id            String  @id @default(cuid())
+  userId        String
+  type          String  // 'pattern', 'optimization', 'conflict', 'productivity'
+  title         String
+  description   String  @db.Text
+  data          String  @db.Text // JSON data
+  recommendations String @db.Text // JSON array of recommendations
+  
+  // User interaction
+  resolved      Boolean @default(false)
+  resolvedAt    DateTime?
+  userFeedback  String?
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("calendar_insights")
+}
+
+model CalendarConflict {
+  id              String  @id @default(cuid())
+  userId          String
+  type            String  // 'overlap', 'double-booking', 'sync_conflict'
+  severity        String  // 'low', 'medium', 'critical'
+  description     String  @db.Text
+  metadata        String? @db.Text // JSON metadata about the conflict
+  status          String  @default("pending") // 'pending', 'resolved', 'ignored'
+  
+  // Optional references
+  taskId          String?
+  calendarEventId String?
+  
+  resolvedAt      DateTime?
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("calendar_conflicts")
+}
+
+model CrossPlatformContact {
+  id              String    @id
+  userId          String
+  providerId      String    // 'microsoft', 'linkedin', 'google'
+  name            String
+  email           String
+  phoneNumbers    String[]  @default([])
+  company         String?
+  jobTitle        String?
+  profileUrl      String?
+  avatar          String?
+  lastInteraction DateTime?
+  tags            String[]  @default([])
+  notes           String?
+  source          String    // 'microsoft', 'linkedin', 'google'
+  syncedAt        DateTime
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("cross_platform_contacts")
+}
+
+// Email & Communication System Models
+model EmailConfiguration {
+  id                String    @id @default(cuid())
+  userId            String
+  providerId        String    // 'smtp', 'sendgrid', 'resend', 'postmark'
+  type              String    // 'transactional', 'notification', 'marketing', 'system'
+  fromName          String
+  fromEmail         String
+  replyTo           String?
+  smtpSettings      String?   @db.Text // JSON for SMTP configuration
+  apiSettings       String?   @db.Text // JSON for API configuration
+  isActive          Boolean   @default(true)
+  isDefault         Boolean   @default(false)
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, providerId])
+  @@map("email_configurations")
+}
+
+model EmailTemplate {
+  id            String  @id @default(cuid())
+  userId        String
+  name          String
+  description   String?
+  category      String  @default("transactional") // 'transactional', 'notification', 'welcome', 'reminder', 'report'
+  subject       String
+  htmlContent   String  @db.Text
+  textContent   String  @db.Text
+  variables     String  @default("[]") @db.Text // JSON array of variable definitions
+  previewData   String  @default("{}") @db.Text // JSON object for preview
+  isActive      Boolean @default(true)
+  version       Int     @default(1)
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("email_templates")
+}
+
+model EmailLog {
+  id              String    @id @default(cuid())
+  userId          String
+  providerId      String
+  templateId      String?
+  messageId       String?
+  recipientCount  Int
+  subject         String
+  success         Boolean
+  deliveredAt     DateTime?
+  errorCode       String?
+  errorMessage    String?
+  tags            String[]  @default([])
+  metadata        String?   @db.Text // JSON
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  
+  @@map("email_logs")
+}
+
+model EmailCampaign {
+  id            String    @id @default(cuid())
+  userId        String
+  name          String
+  description   String?
+  templateId    String?
+  status        String    @default("draft") // 'draft', 'scheduled', 'sending', 'sent', 'paused', 'cancelled'
+  scheduledFor  DateTime?
+  sentAt        DateTime?
+  completedAt   DateTime?
+  settings      String    @default("{}") @db.Text // JSON campaign settings
+  analytics     String    @default("{}") @db.Text // JSON analytics data
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("email_campaigns")
+}
+
+model MessageQueue {
+  id              String    @id @default(cuid())
+  userId          String
+  type            String    // 'immediate', 'scheduled', 'batch'
+  priority        Int       @default(4) // 1 = highest, 5 = lowest
+  channelType     String    // 'email', 'push', 'sms', 'webhook'
+  status          String    @default("pending") // 'pending', 'processing', 'completed', 'failed', 'cancelled'
+  messageCount    Int
+  scheduledFor    DateTime?
+  processedAt     DateTime?
+  completedAt     DateTime?
+  retryCount      Int       @default(0)
+  maxRetries      Int       @default(3)
+  retryDelay      Int       @default(300) // seconds
+  content         String    @db.Text // JSON message content
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("message_queues")
+}
+
+model WebhookEndpoint {
+  id                  String    @id @default(cuid())
+  userId              String
+  name                String
+  url                 String
+  events              String[]  @default([])
+  isActive            Boolean   @default(true)
+  secret              String
+  headers             String    @default("{}") @db.Text // JSON headers
+  maxRetries          Int       @default(3)
+  retryDelay          Int       @default(300) // seconds
+  backoffMultiplier   Float     @default(2.0)
+  lastDeliveryAt      DateTime?
+  lastStatus          Int?
+  failureCount        Int       @default(0)
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("webhook_endpoints")
+}
+
+model CommunicationPreferences {
+  id                String    @id @default(cuid())
+  userId            String    @unique
+  channels          String    @db.Text // JSON channel preferences
+  globalUnsubscribe Boolean   @default(false)
+  dndEnabled        Boolean   @default(false)
+  dndUntil          DateTime?
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("communication_preferences")
 }

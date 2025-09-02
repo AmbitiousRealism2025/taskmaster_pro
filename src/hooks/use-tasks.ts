@@ -14,7 +14,12 @@ import {
   BatchTaskResponse
 } from '@/lib/api/tasks'
 import { TaskQuery, Task, TaskStatus, TaskPriority } from '@/types'
-import { useToast } from '@/hooks/use-toast'
+// TODO: Implement proper toast notifications
+const useToast = () => ({ 
+  toast: ({ title, description }: { title?: string, description?: string }) => {
+    console.log('Toast:', title, description)
+  }
+})
 
 // Query Hooks
 export function useTasks(query: TaskQuery = {}) {

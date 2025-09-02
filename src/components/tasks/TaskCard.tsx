@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { memo, useMemo, useCallback } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { Task } from '@/types/task'
@@ -26,6 +26,8 @@ import {
 import { useDeleteTask } from '@/hooks/use-tasks'
 import { formatDistanceToNow } from 'date-fns'
 import { cn } from '@/lib/utils'
+import { useLiveRegion } from '@/hooks/use-accessibility'
+import { useSwipeGestures, useTouchOptimization } from '@/hooks/use-touch-gestures'
 
 interface TaskCardProps {
   task: Task
@@ -34,14 +36,56 @@ interface TaskCardProps {
 }
 
 const PRIORITY_COLORS = {
-  LOW: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-  MEDIUM: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-  HIGH: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300',
+  LOW: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300',
+  MEDIUM: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300',
+  HIGH: 'bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-300',
   URGENT: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
 }
 
-export function TaskCard({ task, isDragging, onEdit }: TaskCardProps) {
+const CARD_VARIANTS = {
+  LOW: 'default',
+  MEDIUM: 'default', 
+  HIGH: 'gradient-border',
+  URGENT: 'gradient-subtle'
+} as const
+
+export const TaskCard = memo(function TaskCard({ task, isDragging, onEdit }: TaskCardProps) {
   const deleteTask = useDeleteTask()
+  const { announceStatusChange, announceSuccess, announceError } = useLiveRegion()
+  const { addHapticFeedback, isTouchDevice } = useTouchOptimization()
+
+  // Memoized callbacks for performance
+  const handleSwipeLeft = useCallback(() => {
+    // Quick complete action
+    if (task.status !== 'DONE') {
+      addHapticFeedback('medium')
+      announceSuccess(`Marked ${task.title} as complete`)
+      // Could trigger status update here
+    }
+  }, [task.status, task.title, addHapticFeedback, announceSuccess])
+
+  const handleSwipeRight = useCallback(() => {
+    // Quick edit action
+    if (onEdit) {
+      addHapticFeedback('light')
+      onEdit(task)
+      announceStatusChange(`Opened ${task.title} for editing`)
+    }
+  }, [onEdit, task, addHapticFeedback, announceStatusChange])
+
+  const handleLongPress = useCallback(() => {
+    // Context menu or more actions
+    addHapticFeedback('heavy')
+    announceStatusChange(`Long press on ${task.title} - showing more options`)
+  }, [task.title, addHapticFeedback, announceStatusChange])
+
+  // Touch gestures for task actions
+  const { onTouchStart, onTouchMove, onTouchEnd, isGesturing } = useSwipeGestures({
+    onSwipeLeft: handleSwipeLeft,
+    onSwipeRight: handleSwipeRight,
+    onLongPress: handleLongPress,
+    threshold: 60
+  })
 
   const {
     attributes,
@@ -56,18 +100,48 @@ export function TaskCard({ task, isDragging, onEdit }: TaskCardProps) {
     transition,
   }
 
-  const handleDelete = (e: React.MouseEvent) => {
+  const handleDelete = (e: React.MouseEvent | React.KeyboardEvent) => {
     e.stopPropagation()
     
     if (confirm(`Are you sure you want to delete "${task.title}"?`)) {
       deleteTask.mutate(task.id)
+      announceSuccess(`Deleted task: ${task.title}`)
     }
   }
 
-  const handleEdit = (e: React.MouseEvent) => {
+  const handleEdit = (e: React.MouseEvent | React.KeyboardEvent) => {
     e.stopPropagation()
-    onEdit?.(task)
+    if (onEdit) {
+      onEdit(task)
+      announceStatusChange(`Editing task: ${task.title}`)
+    }
   }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    switch (e.key) {
+      case 'Enter':
+      case ' ':
+        e.preventDefault()
+        announceStatusChange(`Opened task: ${task.title}`)
+        break
+      case 'Delete':
+      case 'Backspace':
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault()
+          handleDelete(e)
+        }
+        break
+      case 'e':
+      case 'E':
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault()
+          handleEdit(e)
+        }
+        break
+    }
+  }
+
+
 
   const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() && task.status !== 'DONE'
 
@@ -77,16 +151,33 @@ export function TaskCard({ task, isDragging, onEdit }: TaskCardProps) {
       style={style}
       {...attributes}
       {...listeners}
+      variant={CARD_VARIANTS[task.priority]}
       className={cn(
-        'cursor-grab active:cursor-grabbing transition-shadow hover:shadow-md',
+        'cursor-grab active:cursor-grabbing transition-all duration-200 hover:shadow-lg hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2',
         isDragging && 'opacity-50 rotate-5',
-        isOverdue && 'ring-2 ring-red-200 dark:ring-red-800'
+        isGesturing && 'scale-[1.05] shadow-lg',
+        isOverdue && 'ring-2 ring-red-200 dark:ring-red-800',
+        task.priority === 'HIGH' && 'hover:shadow-purple-100 dark:hover:shadow-purple-900/20',
+        task.priority === 'URGENT' && 'hover:shadow-purple-200 dark:hover:shadow-purple-800/30',
+        isTouchDevice() && 'touch-manipulation'
       )}
+      role="listitem"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      aria-label={`Task: ${task.title}. Priority: ${task.priority}. Status: ${task.status}${task.dueDate ? `. Due: ${new Date(task.dueDate).toLocaleDateString()}` : ''}${isOverdue ? '. Overdue' : ''}. ${isTouchDevice() ? 'Swipe left to complete, right to edit, long press for options' : 'Press Enter to open, Ctrl+E to edit, Ctrl+Delete to remove'}`}
+      aria-describedby={`task-${task.id}-details`}
     >
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <h4 className="font-medium text-sm leading-snug mb-2 line-clamp-2">
+            <h4 className={cn(
+              "font-semibold text-sm leading-tight mb-2 line-clamp-2 tracking-tight",
+              task.priority === 'HIGH' && "text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-teal-600 dark:from-violet-400 dark:to-teal-400",
+              task.priority === 'URGENT' && "text-transparent bg-clip-text bg-gradient-to-r from-violet-700 to-teal-700 dark:from-violet-300 dark:to-teal-300"
+            )}>
               {task.title}
             </h4>
             
@@ -197,6 +288,15 @@ export function TaskCard({ task, isDragging, onEdit }: TaskCardProps) {
       </CardContent>
     </Card>
   )
-}
+}, (prevProps, nextProps) => {
+  // Custom comparison for memo
+  return (
+    prevProps.task.id === nextProps.task.id &&
+    prevProps.task.status === nextProps.task.status &&
+    prevProps.task.title === nextProps.task.title &&
+    prevProps.task.updatedAt === nextProps.task.updatedAt &&
+    prevProps.isDragging === nextProps.isDragging
+  )
+})
 
 export default TaskCard
